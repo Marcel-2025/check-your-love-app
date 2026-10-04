@@ -1,65 +1,215 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Navigation -->
+    <string name="nav_test">Liebestest</string>
+    <string name="nav_history">Verlauf</string>
+    <string name="nav_settings">Einstellungen</string>
+    <string name="nav_back">Zurück</string>
+    <string name="premium_open">Premium öffnen</string>
 
-    <!-- DEUTSCHE STRINGS -->
-    
-    <string name="app_name">Check your Love</string>
-  
-    <!-- CHECK YOUR LOVE STRINGS -->
-    <string name="name1">Dein Name</string>
-    <string name="name2">Name des Schwarms</string>
-    <string name="generate">Generiere Liebesquote</string>
-    
-    <string name="more">Mehr</string>    
-    <!-- CHECK YOUR LOVE STRINGS ENDE -->
-    
-    
-    
-    
-    
-    
-    
- 
-    <!-- MORE/FLONDY/LIZENZ LAYOUT STRINGS -->
-    
-    
-    
-    <!-- MORE -->
-    <string name="back">Zurück</string>
-    <string name="lizenz">Lizenz</string>
-    <!--  -->
-    
-    
-    <!-- FLONDY -->
-    <string name="hgreen1text">Du magst meine App ?</string>
-    <string name="abschnitt1text">Dann bewerte sie doch bitte positiv in Google Play :)\n\nGib mir soviele Sterne wie du es für richtig hältst\n\nUnd kommentiere mit Verbesserungsvorschlägen !</string>
-    
-    <string name="hgreen2text">Mehr apps/games von mir ?</string>
-    <string name="abschnitt2text">Gibts im App Store und in Google Play.\n\nSuch doch einfach mal dort nach \"Flondy\"\n\noder besuche meine eigene Webseite :</string>
-    <string name="abschnitt3text">Dort gibt es zudem mehr Infos über Flondy und ihr könnt\n\nmir unter dem \"Donate\" Tab eine Kleinigkeit spenden ...\n\nOder klickt direkt hier um mir\n\nein kleines Geschenk zu machen :)</string>
-    <string name="abschnitt4text">Damit ich weiterhin tolle Apps\n\nund Spiele für euch entwickeln kann.</string>
-    
-    <string name="hgreen3text">Ihr wollt mich kontaktieren ?</string>
-    <string name="abschnitt5text">Fragen um Flondy und Support und zu allen Apps/Games\n\n(auch Bugmeldungen) bitte ausschließlich an :</string>
-    <string name="abschnitt6text">Anfragen bezüglich Verbesserungsvorschlägen,\n\nAnfragen zu komerziellen Dienstleistungen\n\noder sonstigen Dingen bitte direkt an :</string>
-    
-    <string name="abschnitt7text">↓ ↓ ↓ ↓ ↓\tBesuche mich\t↓ ↓ ↓ ↓ ↓</string>
-    
-    <string name="playstoresignaturetext">in Google´s Playstore</string>
-    <string name="appstoresignaturetext">in Apple´s Appstore</string>
-    <string name="flondystoresignaturetext">oder in meinem eigenen Store</string>
-    <!--  -->
-    
-    
-    <!-- LIZENZ -->
-    <string name="lizenzbedingtitle">Allgemeine Lizenzbedingungen</string>
-    <string name="alleinhalte">Alle Inhalte dieser App sind Eigentum deren Urheber. Flondy Dev. nutzt zudem ausschließlich Inhalte die frei für Commerzielle Zwecke erhältlich sind oder die von Flondy Dev. für Commerzielle Zwecke gekauft wurden. Die App beinhaltet zudem auch viele Inhalte deren Urheber Flondy Dev. selbst ist und somit dem © Urheberrecht von Flondy Dev unterliegen. Jegliche Nachahmung welche Flondy imitieren sollen oder in irgendeiner weiße identisch mit Flondy sind oder sein sollen, sind strikt untersagt. Für gewährleistung aller Angaben in meinen Apps order Spielen trage ich keine Verantwortung. Der Rechtsweg ist ausgeschlossen. Wenn Resourcen für diese App verwendet worden sind und diese nicht Eigentum von Flondy Dev sind, stehen die Lizenznachweiße hier weiter unten als Links dargestellt.</string>
-    <!--  -->
- 
- 
- 
-    <!-- MORE/FLONDY/LIZENZ LAYOUT STRINGS ENDE -->
-    
-	
-	
+    <!-- Test screen -->
+    <string name="test_headline">Wie stark ist eure Verbindung?</string>
+    <string name="test_subtitle">Gib zwei Namen ein und lass das Herz entscheiden.</string>
+    <string name="field_name_a">Dein Name</string>
+    <string name="field_name_b">Name deines Schwarms</string>
+    <string name="field_name_a_placeholder">z. B. Alex</string>
+    <string name="field_name_b_placeholder">z. B. Sam</string>
+    <string name="field_counter">%1$d/%2$d</string>
+    <string name="error_name_empty">Bitte gib einen Namen ein.</string>
+    <string name="error_name_no_letter">Ein Name braucht mindestens einen Buchstaben.</string>
+    <string name="error_name_too_long">Bitte höchstens %1$d Zeichen.</string>
+    <string name="action_swap">Namen tauschen</string>
+    <string name="action_reset">Eingaben löschen</string>
+    <string name="action_check">Liebe prüfen</string>
+    <string name="action_check_hint">Tippe auf das Herz</string>
+    <string name="evaluating">Das Herz hört genau hin …</string>
+    <string name="evaluating_a11y">Ergebnis wird berechnet</string>
+    <string name="action_new_test">Neuer Test</string>
+    <string name="action_favorite_add">Zu Favoriten hinzufügen</string>
+    <string name="action_favorite_remove">Aus Favoriten entfernen</string>
+    <string name="action_share">Teilen</string>
+    <string name="entertainment_note">Nur zur Unterhaltung – kein wissenschaftlicher Test echter Kompatibilität.</string>
+    <string name="result_pair">%1$s &amp; %2$s</string>
+    <string name="result_percent">%1$d %%</string>
+    <string name="result_a11y">%1$s und %2$s: %3$d Prozent. %4$s</string>
+    <string name="result_saved_failed">Das Ergebnis konnte nicht im Verlauf gespeichert werden.</string>
+
+    <string name="result_title_0">Beste-Freunde-Material</string>
+    <string name="result_title_1">Ausbaufähig</string>
+    <string name="result_title_2">Da geht was</string>
+    <string name="result_title_3">Starke Verbindung</string>
+    <string name="result_title_4">Herzklopfen</string>
+    <string name="result_title_5">Seelenverwandt</string>
+
+    <string name="result_text_0_0">Die Sterne sind heute etwas schüchtern. Vielleicht wird es eine großartige Freundschaft – die halten oft am längsten.</string>
+    <string name="result_text_0_1">Ein kleiner Wert – aber echte Gefühle lassen sich ohnehin nicht in Prozent ausrechnen.</string>
+    <string name="result_text_0_2">Der Liebestest zuckt mit den Schultern. Zum Glück entscheidet ihr – nicht eine App.</string>
+    <string name="result_text_1_0">Ein zarter Funke. Mit etwas Humor und ein paar Pizzaabenden – wer weiß?</string>
+    <string name="result_text_1_1">Noch viel Platz für Überraschungen – und Überraschungen machen Spaß.</string>
+    <string name="result_text_1_2">Gegensätze ziehen sich an, sagt man. Warum nicht ausprobieren?</string>
+    <string name="result_text_2_0">Genau in der Mitte: die perfekte Mischung aus Gemeinsamkeiten und Gesprächsstoff.</string>
+    <string name="result_text_2_1">Da ist definitiv etwas. Jetzt muss nur noch jemand den ersten Schritt machen.</string>
+    <string name="result_text_2_2">Halb voll, nicht halb leer – hier steckt viel Potenzial.</string>
+    <string name="result_text_3_0">Da knistert es! Ihr passt zusammen wie Kaffee und Croissant.</string>
+    <string name="result_text_3_1">Eine starke Verbindung – das klingt nach langen Gesprächen bis spät in die Nacht.</string>
+    <string name="result_text_3_2">Schöne Werte! Ein Lächeln ist quasi vorprogrammiert.</string>
+    <string name="result_text_4_0">Herzklopfen garantiert! Ihr zwei seid ein ziemlich gutes Team.</string>
+    <string name="result_text_4_1">Wow – zwischen euch stimmt die Chemie.</string>
+    <string name="result_text_4_2">So viel Harmonie, da werden selbst die Sterne neidisch.</string>
+    <string name="result_text_5_0">Seelenverwandt! Gäbe es einen Soundtrack, würde er jetzt einsetzen.</string>
+    <string name="result_text_5_1">Beinahe perfekt – ihr zwei scheint wie füreinander gemacht.</string>
+    <string name="result_text_5_2">Volltreffer! Amor hat heute offensichtlich richtig gut gezielt.</string>
+
+    <!-- History -->
+    <string name="history_title">Verlauf</string>
+    <string name="history_filter_all">Alle</string>
+    <string name="history_filter_favorites">Favoriten</string>
+    <string name="history_empty_title">Noch keine Tests</string>
+    <string name="history_empty_text">Deine Ergebnisse erscheinen hier – gespeichert nur auf diesem Gerät.</string>
+    <string name="history_empty_favorites_title">Noch keine Favoriten</string>
+    <string name="history_empty_favorites_text">Tippe bei einem Ergebnis auf das Herz, um es hier zu behalten.</string>
+    <string name="history_start_test">Test starten</string>
+    <string name="history_delete_item">Ergebnis löschen</string>
+    <string name="history_deleted">Ergebnis gelöscht</string>
+    <string name="history_undo">Rückgängig</string>
+    <string name="history_clear">Verlauf löschen</string>
+    <string name="history_clear_title">Verlauf löschen?</string>
+    <string name="history_clear_text">Deine Ergebnisse werden von diesem Gerät entfernt. Das kann nicht rückgängig gemacht werden.</string>
+    <string name="history_clear_keep_favorites">Favoriten behalten</string>
+    <string name="history_clear_confirm">Löschen</string>
+    <string name="history_cleared">Verlauf gelöscht</string>
+    <string name="action_cancel">Abbrechen</string>
+    <string name="action_close">Schließen</string>
+
+    <!-- Share -->
+    <string name="share_title">Ergebnis teilen</string>
+    <string name="share_template">Kartenstil</string>
+    <string name="share_button">Als Bild teilen</string>
+    <string name="share_preparing">Bild wird erstellt …</string>
+    <string name="share_failed">Das Bild konnte nicht erstellt werden.</string>
+    <string name="share_chooser">Ergebnis teilen</string>
+    <string name="share_text">%1$s &amp; %2$s: %3$d %% ❤ – Check your Love (nur zum Spaß)</string>
+    <string name="share_card_note">Nur zum Spaß</string>
+    <string name="share_names_hint">Das Bild enthält beide Namen. Teile es nur, wenn das für euch beide in Ordnung ist.</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Einstellungen</string>
+    <string name="settings_section_appearance">Erscheinungsbild</string>
+    <string name="settings_mode">Modus</string>
+    <string name="settings_mode_system">System</string>
+    <string name="settings_mode_light">Hell</string>
+    <string name="settings_mode_dark">Dunkel</string>
+    <string name="settings_palette">Design</string>
+    <string name="settings_effect">Ergebnisanimation</string>
+    <string name="settings_effect_hint" formatted="false">Wird bei Ergebnissen ab 80 % abgespielt.</string>
+    <string name="settings_section_motion">Bewegung &amp; Feedback</string>
+    <string name="settings_haptics">Haptisches Feedback</string>
+    <string name="settings_haptics_desc">Sanfte Vibration bei Aktionen und Ergebnissen</string>
+    <string name="settings_motion">Bewegung reduzieren</string>
+    <string name="settings_motion_system">System</string>
+    <string name="settings_motion_on">An</string>
+    <string name="settings_motion_off">Aus</string>
+    <string name="settings_section_premium">Premium</string>
+    <string name="settings_premium_active">Premium ist aktiv</string>
+    <string name="settings_premium_inactive">Werbung entfernen &amp; Designs freischalten</string>
+    <string name="settings_restore">Käufe wiederherstellen</string>
+    <string name="settings_section_privacy">Datenschutz</string>
+    <string name="settings_privacy_local">Namen und Verlauf bleiben auf diesem Gerät und werden nie an Werbe- oder Analysedienste übermittelt.</string>
+    <string name="settings_privacy_options">Datenschutzeinstellungen für Werbung</string>
+    <string name="settings_privacy_policy">Datenschutzerklärung</string>
+    <string name="settings_consent_reset">Einwilligung zurücksetzen (Debug)</string>
+    <string name="settings_consent_reset_done">Einwilligung zurückgesetzt – sie wird beim nächsten Start erneut abgefragt.</string>
+    <string name="settings_section_about">Über die App</string>
+    <string name="settings_version">Version %1$s</string>
+    <string name="settings_about_text">Check your Love ist eine Unterhaltungs-App. Das Ergebnis wird aus den beiden Namen berechnet und ist für dasselbe Paar immer gleich – über echte Gefühle sagt es nichts aus.</string>
+    <string name="settings_website">Website</string>
+    <string name="settings_more_apps">Mehr Apps von Flondy</string>
+    <string name="settings_contact">Kontakt</string>
+    <string name="settings_licenses">Lizenzen</string>
+    <string name="settings_licenses_text">Schriften: DM Serif Display und Plus Jakarta Sans, lizenziert unter der SIL Open Font License 1.1.\n\nDiese App verwendet AndroidX, Jetpack Compose, Google Play Billing, Google Mobile Ads und die User Messaging Platform (Apache License 2.0 / Google-Bedingungen).</string>
+    <string name="settings_contact_subject">Check your Love – Feedback</string>
+
+    <!-- Locked items -->
+    <string name="locked_title">%1$s ist ein Premium-Inhalt</string>
+    <string name="locked_text">Schalte ihn dauerhaft mit Premium frei oder teste ihn 24 Stunden kostenlos mit einem kurzen Video.</string>
+    <string name="locked_go_premium">Premium ansehen</string>
+    <string name="locked_watch_video">24 h testen</string>
+    <string name="locked_badge">Premium</string>
+    <string name="unlocked_until">Freigeschaltet bis %1$s</string>
+
+    <string name="palette_aubergine">Aubergine</string>
+    <string name="palette_midnight">Mitternacht</string>
+    <string name="palette_rose_gold">Roségold</string>
+    <string name="palette_aurora">Polarlicht</string>
+    <string name="palette_blossom">Kirschblüte</string>
+    <string name="palette_velvet">Samt</string>
+
+    <string name="effect_none">Keine</string>
+    <string name="effect_confetti">Konfetti</string>
+    <string name="effect_heart_rain">Herzregen</string>
+    <string name="effect_sparkle">Sternenfunkeln</string>
+
+    <string name="template_classic">Klassisch</string>
+    <string name="template_polaroid">Polaroid</string>
+    <string name="template_neon">Neon</string>
+    <string name="template_minimal">Minimal</string>
+
+    <!-- Premium -->
+    <string name="premium_title">Check your Love Premium</string>
+    <string name="premium_subtitle">Einmal kaufen, für immer behalten.</string>
+    <string name="premium_benefit_ads">Keine Werbung</string>
+    <string name="premium_benefit_ads_desc">Genieße die App komplett werbefrei.</string>
+    <string name="premium_benefit_designs">4 exklusive Designs</string>
+    <string name="premium_benefit_designs_desc">Roségold, Polarlicht, Kirschblüte und Samt – hell und dunkel.</string>
+    <string name="premium_benefit_effects">2 zusätzliche Ergebnisanimationen</string>
+    <string name="premium_benefit_effects_desc">Herzregen und Sternenfunkeln bei hohen Ergebnissen.</string>
+    <string name="premium_benefit_share">3 Premium-Vorlagen zum Teilen</string>
+    <string name="premium_benefit_share_desc">Polaroid, Neon und Minimal.</string>
+    <string name="premium_fair_note">Premium verändert nie ein Ergebnis – die Berechnung ist für alle gleich.</string>
+    <string name="premium_preview">Design-Vorschau</string>
+    <string name="premium_buy">Für %1$s freischalten</string>
+    <string name="premium_loading_price">Preis wird geladen …</string>
+    <string name="premium_one_time">Einmaliger Kauf · kein Abo</string>
+    <string name="premium_owned">Premium ist aktiv – danke!</string>
+    <string name="premium_pending">Kauf ausstehend. Premium wird freigeschaltet, sobald die Zahlung bestätigt ist.</string>
+    <string name="premium_unavailable">Premium ist gerade nicht verfügbar. Bitte versuche es später erneut.</string>
+    <string name="premium_not_configured">Premium ist in dieser Version noch nicht verfügbar.</string>
+    <string name="premium_restore">Käufe wiederherstellen</string>
+    <string name="premium_try_title">Erst ausprobieren</string>
+    <string name="premium_try_text">Sieh dir freiwillig ein kurzes Video an und nutze einen Premium-Inhalt 24 Stunden lang.</string>
+    <string name="premium_try_choose">Belohnung wählen</string>
+    <string name="premium_active_unlocks">Aktive Testphasen</string>
+
+    <string name="purchase_success">Premium freigeschaltet. Viel Spaß!</string>
+    <string name="purchase_pending">Zahlung ausstehend – Premium wird freigeschaltet, sobald sie bestätigt ist.</string>
+    <string name="purchase_canceled">Kauf abgebrochen.</string>
+    <string name="purchase_failed">Der Kauf konnte nicht abgeschlossen werden. Bitte versuche es erneut.</string>
+    <string name="purchase_already_owned">Du besitzt Premium bereits – es wurde wiederhergestellt.</string>
+    <string name="purchase_restored">Premium wiederhergestellt.</string>
+    <string name="purchase_nothing_to_restore">Für dieses Google-Konto wurde kein früherer Premium-Kauf gefunden.</string>
+    <string name="purchase_revoked">Premium ist für dieses Konto nicht mehr aktiv (z. B. erstattet).</string>
+    <string name="purchase_service_unavailable">Google Play ist gerade nicht erreichbar.</string>
+
+    <string name="sim_banner">Simulation – nur im Debug-Build. Kein echter Kauf, kein echtes Geld.</string>
+    <string name="sim_outcome">Nächstes simuliertes Ergebnis</string>
+    <string name="sim_success">Erfolg</string>
+    <string name="sim_pending">Ausstehend</string>
+    <string name="sim_cancel">Abbruch</string>
+    <string name="sim_error">Fehler</string>
+    <string name="sim_complete_pending">Ausstehenden Kauf abschließen</string>
+    <string name="sim_refund">Erstattung simulieren</string>
+    <string name="sim_price">Testpreis</string>
+
+    <string name="reward_dialog_title">24 Stunden gratis</string>
+    <string name="reward_dialog_text">Sieh dir ein kurzes Werbevideo an und nutze „%1$s“ 24 Stunden lang. Die Belohnung gibt es nur, wenn du das Video bis zum Ende ansiehst. Danach wird der Inhalt automatisch wieder gesperrt.</string>
+    <string name="reward_dialog_watch">Video ansehen</string>
+    <string name="reward_loading">Video wird geladen …</string>
+    <string name="reward_unavailable">Gerade ist kein Video verfügbar. Bitte versuche es später erneut.</string>
+    <string name="reward_granted">„%1$s“ ist freigeschaltet bis %2$s.</string>
+    <string name="reward_not_granted">Das Video wurde vorzeitig geschlossen – diesmal keine Belohnung.</string>
+    <string name="reward_kind_palette">Design</string>
+    <string name="reward_kind_effect">Animation</string>
+    <string name="reward_kind_template">Teilen-Vorlage</string>
+
+    <string name="ad_label">Anzeige</string>
 </resources>

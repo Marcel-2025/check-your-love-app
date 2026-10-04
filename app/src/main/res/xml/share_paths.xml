@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!-- Nur der temporäre Ordner für geteilte Ergebniskarten wird freigegeben -->
+    <cache-path name="shared_cards" path="shared/" />
+</paths>

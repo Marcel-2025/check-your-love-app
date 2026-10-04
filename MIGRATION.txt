@@ -1,3 +1,7 @@
+HINWEIS (Version 2.0): Diese Datei beschreibt die frühere Umstellung von Eclipse auf Gradle.
+Die aktuelle Modernisierung (Kotlin/Compose, Monetarisierung) ist in README.md und
+docs/MONETARISIERUNG.md dokumentiert.
+
 Migration: Check your Love
 ==========================
 

@@ -1,8 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-    <resources>
-        <color name="mywhite">#FFFFFF</color>
-        <color name="myblack">#000000</color>
-        <color name="myURLblue">#3E75FF</color>
-        <color name="checkyourloveTextViewTextColor">#00FFC9</color>
-        
-    </resources>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="splash_background">#FFF6F3</color>
+    <color name="window_background">#FFF6F3</color>
+</resources>

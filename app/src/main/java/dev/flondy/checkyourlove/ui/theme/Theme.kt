@@ -1,0 +1,124 @@
+package dev.flondy.checkyourlove.ui.theme
+
+import android.provider.Settings
+import android.view.HapticFeedbackConstants
+import android.os.Build
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.unit.dp
+
+/** Bewegungsvorgaben: reduziert = keine Partikel, keine Pulsation, kurze Wartezeit. */
+@Immutable
+data class MotionSpec(val reduced: Boolean) {
+    val evaluationMillis: Long get() = if (reduced) 350L else 1_700L
+    val counterMillis: Int get() = if (reduced) 0 else 1_300
+}
+
+/** Haptik, die die Nutzereinstellung respektiert. */
+class Haptics(private val enabled: Boolean, private val performer: (Int) -> Unit) {
+    fun tick() { if (enabled) performer(HapticFeedbackConstants.KEYBOARD_TAP) }
+    fun confirm() {
+        if (!enabled) return
+        performer(if (Build.VERSION.SDK_INT >= 30) HapticFeedbackConstants.CONFIRM else HapticFeedbackConstants.LONG_PRESS)
+    }
+    fun toggle() {
+        if (!enabled) return
+        performer(if (Build.VERSION.SDK_INT >= 34) HapticFeedbackConstants.TOGGLE_ON else HapticFeedbackConstants.CLOCK_TICK)
+    }
+}
+
+val LocalPalette = staticCompositionLocalOf { AppPalette.AUBERGINE.dark }
+val LocalMotion = staticCompositionLocalOf { MotionSpec(reduced = false) }
+val LocalHaptics = staticCompositionLocalOf { Haptics(false) {} }
+
+val AppShapes = Shapes(
+    extraSmall = RoundedCornerShape(8.dp),
+    small = RoundedCornerShape(12.dp),
+    medium = RoundedCornerShape(18.dp),
+    large = RoundedCornerShape(26.dp),
+    extraLarge = RoundedCornerShape(34.dp),
+)
+
+fun PaletteColors.toColorScheme(): ColorScheme {
+    val base = if (isDark) darkColorScheme() else lightColorScheme()
+    val containerLow = surface
+    return base.copy(
+        primary = primary,
+        onPrimary = onPrimary,
+        primaryContainer = primaryContainer,
+        onPrimaryContainer = onPrimaryContainer,
+        secondary = secondary,
+        onSecondary = onPrimary,
+        secondaryContainer = primaryContainer.copy(alpha = 0.7f).compositeOver(surface),
+        onSecondaryContainer = onPrimaryContainer,
+        tertiary = tertiary,
+        background = background,
+        onBackground = onBackground,
+        surface = surface,
+        onSurface = onBackground,
+        surfaceVariant = surfaceHigh,
+        onSurfaceVariant = onSurfaceVariant,
+        surfaceContainerLowest = background,
+        surfaceContainerLow = containerLow,
+        surfaceContainer = surfaceHigh.copy(alpha = 0.6f).compositeOver(surface),
+        surfaceContainerHigh = surfaceHigh,
+        surfaceContainerHighest = surfaceHigh.copy(alpha = 0.85f).compositeOver(outline),
+        inverseSurface = onBackground,
+        inverseOnSurface = background,
+        outline = outline,
+        outlineVariant = outline.copy(alpha = 0.45f).compositeOver(surface),
+        error = error,
+        scrim = Color.Black,
+    )
+}
+
+fun PaletteColors.backgroundBrush(): Brush =
+    Brush.verticalGradient(listOf(backgroundAlt, background, background))
+
+fun PaletteColors.heartBrush(): Brush = Brush.linearGradient(listOf(heartStart, heartMid, heartEnd))
+
+@Composable
+fun CheckYourLoveTheme(
+    palette: AppPalette = AppPalette.AUBERGINE,
+    dark: Boolean,
+    reducedMotionPreference: Boolean? = null,
+    haptics: Boolean = true,
+    content: @Composable () -> Unit,
+) {
+    val colors = palette.colors(dark)
+    val context = LocalContext.current
+    val view = LocalView.current
+    val systemReduced = remember(context) {
+        runCatching {
+            Settings.Global.getFloat(context.contentResolver, Settings.Global.ANIMATOR_DURATION_SCALE, 1f) == 0f
+        }.getOrDefault(false)
+    }
+    val motion = MotionSpec(reduced = reducedMotionPreference ?: systemReduced)
+    val hapticsImpl = remember(haptics, view) { Haptics(haptics) { view.performHapticFeedback(it) } }
+    CompositionLocalProvider(
+        LocalPalette provides colors,
+        LocalMotion provides motion,
+        LocalHaptics provides hapticsImpl,
+    ) {
+        MaterialTheme(
+            colorScheme = colors.toColorScheme(),
+            typography = AppTypography,
+            shapes = AppShapes,
+            content = content,
+        )
+    }
+}
