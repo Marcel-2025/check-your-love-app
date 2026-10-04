@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ENGLISCHE STRINGS -->
+    
+    <string name="app_name">Check your Love</string>
+ 
+    <!-- CHECK YOUR LOVE STRINGS -->
+    <string name="name1">youe name</string>
+    <string name="name2">name of your crush</string>
+    <string name="generate">generate lovequoate</string>
+    
+    <string name="more">more</string>
+    <!-- CHECK YOUR LOVE STRINGS ENDE -->
+    
+    
+    
+    
+    
+    
+    
+ 
+    <!-- MORE/FLONDY/LIZENZ LAYOUT STRINGS -->
+    
+    
+    
+    <!-- MORE -->
+    <string name="back">back</string>
+    <string name="lizenz">license</string>
+    <!--  -->
+    
+    
+    <!-- FLONDY -->
+    <string name="hgreen1text">You like my apps ?</string>
+    <string name="abschnitt1text">Then pls rate them positive in Google Play :)\n\nGive them as many Stars as you think it´s right\n\nand comment with suggestions for improvement !</string>
+    
+    <string name="hgreen2text">More apps/games from me ?</string>
+    <string name="abschnitt2text">You can get in the App Store or in Google Play.\n\nJust go searching there for \"Flondy\"\n\nor visit my own Webseite on :</string>
+    <string name="abschnitt3text">There you can get more informations about Flondy and even\n\nyou can donate me a little money to support me\n\It would be very,very helpful !\nOtherwhise you can directly click here to make me a small gift if you want.</string>
+    <string name="abschnitt4text">So that i can furthermore create/develop great apps and games for you</string>
+    
+    <string name="hgreen3text">You want to contact me ?</string>
+    <string name="abschnitt5text">Questions about Flondy, support for all apps/games (even bugreports) pls exclusively to :</string>
+    <string name="abschnitt6text">Requests for improvement proposals, requests for commercial services or other things pls directly to :</string>
+  
+    <string name="abschnitt7text">↓ ↓ ↓ ↓ ↓Visit me↓ ↓ ↓ ↓ ↓</string>
+    
+    <string name="playstoresignaturetext">on google´s playstore</string>
+    <string name="appstoresignaturetext">on apple´s appstore</string>
+    <string name="flondystoresignaturetext">or at our own store</string>
+    <!--  -->
+    
+    <!-- LIZENZ -->
+    <string name="lizenzbedingtitle">General License Conditions</string>
+    <string name="alleinhalte">All Content of this app is property of their respective Owners/Authors. Flondy Dev. uses in addition only contents which are free for commercial usage available or which are bought from Flondy Dev. for commercial usage. This app even contains much content which its owner/author Flondy Dev. is itself and thus be subject to the © copyright of Flondy. Any copying which should imitate Flondy or should be in any kind identical with Flondy are strictly prohibited. For warranty of all informations which my apps and games containing we have no responsibility. The decision is final. Der Rechtsweg ist ausgeschlossen. If resources where used for this app whose owner/author is´n Flondy Dev. or which are not free to use or bought from Flondy, their royalty evidence are here below.</string>
+    
+    <string name="lizenzkind1">\"Free for personal and commercial use\"</string>
+    <string name="lizenzkind2">\"Best of all, this icon set is yours to use in any project. Personal, commercial, whatever you would like.\"</string>
+    <string name="lizenzkind3">no license yet</string>
+    <string name="lizenzkind4">no license yet</string>
+    <string name="lizenzkind5">no license yet</string>
+    <string name="lizenzkind6">no license yet</string>
+    
+    <string name="gotoArtist1ButtonText">graphicsfuel.com</string>
+    <string name="gotoArtist2ButtonText">designsbyhall.me</string>
+    <string name="gotoArtist3ButtonText">Artist3</string>
+    <string name="gotoArtist4ButtonText">Artist4</string>
+    <string name="gotoArtist5ButtonText">Artist5</string>
+    <string name="gotoArtist6ButtonText">Artist6</string>
+    
+    <string name="gotoArtist1URL">http://www.graphicsfuel.com/</string>
+    <string name="gotoArtist2URL">http://designsbyhall.me</string>
+    <string name="gotoArtist3URL">Artist3</string>
+    <string name="gotoArtist4URL">Artist4</string>
+    <string name="gotoArtist5URL">Artist5</string>
+    <string name="gotoArtist6URL">Artist6</string>
+ 	<!--  -->
+ 
+    <!-- MORE/FLONDY/LIZENZ LAYOUT STRINGS ENDE -->
+    
+	
+	
+</resources>

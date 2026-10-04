@@ -1,0 +1,20 @@
+Migration: Check your Love
+==========================
+
+Paket / applicationId: dev.flondy.checkyourlove
+
+Allgemeine Umstellung (bei allen Apps gleich):
+- Eclipse/ADT-Struktur -> Gradle-Struktur (app/src/main/java, res, assets, AndroidManifest.xml)
+- Android Gradle Plugin 8.7.3, Gradle Wrapper 8.9, compileSdk 35
+- minSdk 21, targetSdk 24 (vorher 8-21 bzw. 11-21; Android 14/15 installiert keine Apps mit targetSdk < 23/24 mehr)
+- package, versionCode, versionName und <uses-sdk> aus dem Manifest nach app/build.gradle verschoben
+- Quelltexte von Windows-1252 nach UTF-8 umkodiert (wo nötig)
+- Die Eclipse-Originale im übergeordneten Ordner sind unverändert.
+
+Projektspezifisch:
+- libs/android-support-v4.jar entfernt (wird nicht benötigt bzw. doppelt)
+- google-play-services_lib (Eclipse-Library) ersetzt durch Gradle-Abhängigkeit com.google.android.gms:play-services-ads:15.0.1
+- java/dev/flondy/checkyourlove/MainActivity.java: 2x leeren file://-Anhang beim Teilen/Mailen auskommentiert (würde ab targetSdk 24 abstürzen)
+- res/drawable/background.png ist eigentlich JPG -> umbenannt in background.jpg
+
+Alle Code-Änderungen sind im Quelltext mit [Android Studio Migration] markiert.

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical" >
+
+    <EditText
+        android:id="@+id/ename1"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:lines="1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:ems="10"
+        android:gravity="center_vertical|center_horizontal"
+        android:hint=""
+        android:inputType="textPersonName"
+        android:textColor="@color/checkyourloveTextViewTextColor"
+        android:textSize="28sp" />
+
+    <EditText
+        android:id="@+id/ename2"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:lines="1"
+        android:layout_below="@id/ename1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:gravity="center_vertical|center_horizontal"
+        android:hint=""
+        android:inputType="textPersonName"
+        android:textColor="@color/checkyourloveTextViewTextColor"
+        android:textSize="28sp" />
+
+    <Button
+        android:id="@+id/generateButton"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_below="@id/ename2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/herzfull"
+        android:onClick="generatequote"
+        android:textColor="#FF0F00" />
+
+    <TextView
+        android:id="@+id/equote"
+        android:layout_width="120dp"
+        android:layout_height="100dp"
+        android:layout_alignTop="@id/generateButton"
+        android:layout_below="@id/ename2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="35dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#FF0F00"
+        android:textSize="70sp" />
+
+    <Button
+        android:id="@+id/moreButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_above="@+id/adscrollview"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/fd_selector"
+        android:onClick="dev"/>
+
+    <ScrollView
+        android:id="@+id/adscrollview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" >
+    </ScrollView>
+
+</RelativeLayout>

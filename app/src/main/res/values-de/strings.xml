@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- DEUTSCHE STRINGS -->
+    
+    <string name="app_name">Check your Love</string>
+  
+    <!-- CHECK YOUR LOVE STRINGS -->
+    <string name="name1">Dein Name</string>
+    <string name="name2">Name des Schwarms</string>
+    <string name="generate">Generiere Liebesquote</string>
+    
+    <string name="more">Mehr</string>    
+    <!-- CHECK YOUR LOVE STRINGS ENDE -->
+    
+    
+    
+    
+    
+    
+    
+ 
+    <!-- MORE/FLONDY/LIZENZ LAYOUT STRINGS -->
+    
+    
+    
+    <!-- MORE -->
+    <string name="back">Zurück</string>
+    <string name="lizenz">Lizenz</string>
+    <!--  -->
+    
+    
+    <!-- FLONDY -->
+    <string name="hgreen1text">Du magst meine App ?</string>
+    <string name="abschnitt1text">Dann bewerte sie doch bitte positiv in Google Play :)\n\nGib mir soviele Sterne wie du es für richtig hältst\n\nUnd kommentiere mit Verbesserungsvorschlägen !</string>
+    
+    <string name="hgreen2text">Mehr apps/games von mir ?</string>
+    <string name="abschnitt2text">Gibts im App Store und in Google Play.\n\nSuch doch einfach mal dort nach \"Flondy\"\n\noder besuche meine eigene Webseite :</string>
+    <string name="abschnitt3text">Dort gibt es zudem mehr Infos über Flondy und ihr könnt\n\nmir unter dem \"Donate\" Tab eine Kleinigkeit spenden ...\n\nOder klickt direkt hier um mir\n\nein kleines Geschenk zu machen :)</string>
+    <string name="abschnitt4text">Damit ich weiterhin tolle Apps\n\nund Spiele für euch entwickeln kann.</string>
+    
+    <string name="hgreen3text">Ihr wollt mich kontaktieren ?</string>
+    <string name="abschnitt5text">Fragen um Flondy und Support und zu allen Apps/Games\n\n(auch Bugmeldungen) bitte ausschließlich an :</string>
+    <string name="abschnitt6text">Anfragen bezüglich Verbesserungsvorschlägen,\n\nAnfragen zu komerziellen Dienstleistungen\n\noder sonstigen Dingen bitte direkt an :</string>
+    
+    <string name="abschnitt7text">↓ ↓ ↓ ↓ ↓\tBesuche mich\t↓ ↓ ↓ ↓ ↓</string>
+    
+    <string name="playstoresignaturetext">in Google´s Playstore</string>
+    <string name="appstoresignaturetext">in Apple´s Appstore</string>
+    <string name="flondystoresignaturetext">oder in meinem eigenen Store</string>
+    <!--  -->
+    
+    
+    <!-- LIZENZ -->
+    <string name="lizenzbedingtitle">Allgemeine Lizenzbedingungen</string>
+    <string name="alleinhalte">Alle Inhalte dieser App sind Eigentum deren Urheber. Flondy Dev. nutzt zudem ausschließlich Inhalte die frei für Commerzielle Zwecke erhältlich sind oder die von Flondy Dev. für Commerzielle Zwecke gekauft wurden. Die App beinhaltet zudem auch viele Inhalte deren Urheber Flondy Dev. selbst ist und somit dem © Urheberrecht von Flondy Dev unterliegen. Jegliche Nachahmung welche Flondy imitieren sollen oder in irgendeiner weiße identisch mit Flondy sind oder sein sollen, sind strikt untersagt. Für gewährleistung aller Angaben in meinen Apps order Spielen trage ich keine Verantwortung. Der Rechtsweg ist ausgeschlossen. Wenn Resourcen für diese App verwendet worden sind und diese nicht Eigentum von Flondy Dev sind, stehen die Lizenznachweiße hier weiter unten als Links dargestellt.</string>
+    <!--  -->
+ 
+ 
+ 
+    <!-- MORE/FLONDY/LIZENZ LAYOUT STRINGS ENDE -->
+    
+	
+	
+</resources>
