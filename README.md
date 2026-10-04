@@ -52,7 +52,7 @@ Getestet in `MigrationTest` mit exakt dem Schema der alten `DbHelper`-Klasse.
 ./gradlew lintDebug
 ```
 
-Release: siehe [docs/MONETARISIERUNG.md](docs/MONETARISIERUNG.md) – ohne AdMob-App-ID bricht
+Release: siehe [dokumentation/MONETARISIERUNG.md](dokumentation/MONETARISIERUNG.md) – ohne AdMob-App-ID bricht
 `assembleRelease` bewusst mit einer Anleitung ab.
 
 ### Versionen
@@ -77,4 +77,4 @@ Website, Play-Entwicklerseite und Kontakt-E-Mail.
 
 ## Screenshots
 
-`docs/screenshots/` – erzeugt mit Robolectric/Roborazzi (kein Emulator verfügbar).
+`dokumentation/screenshots/` – erzeugt mit Robolectric/Roborazzi (kein Emulator verfügbar).

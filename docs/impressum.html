@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Impressum – Check your Love</title>
+<meta name="description" content="Impressum">
+<meta name="theme-color" content="#170b1c">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Impressum – Check your Love">
+<meta property="og:description" content="Impressum">
+<meta property="og:image" content="assets/img/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="en" href="en/imprint.html">
+<link rel="icon" type="image/png" href="assets/img/favicon-64.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preload" href="assets/fonts/DMSerifDisplay-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="no-js legal">
+<script>document.body.classList.remove('no-js')</script>
+<a class="skip" href="#main">Zum Inhalt springen</a>
+<header class="nav"><div class="wrap">
+  <a class="brand" href=""><img src="assets/img/icon-192.png" alt="" width="34" height="34">Check your Love</a>
+  <nav class="nav-links" aria-label="Hauptnavigation"><a class="" href="">Start</a>
+    <a class="lang" href="en/imprint.html" hreflang="en" title="English version">EN</a>
+  </nav>
+</div></header>
+<main id="main">
+<h1>Impressum</h1>
+<p class="meta">Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG)</p>
+<div class="box"><p style="margin:0"><span class="todo">[Vor- und Nachname bzw. Firma]</span><br><span class="todo">[Straße und Hausnummer]</span><br><span class="todo">[PLZ Ort]</span><br>Deutschland<br>E-Mail: <a href="mailto:contact@flondy.com">contact@flondy.com</a></p></div>
+<h2>Verantwortlich für den Inhalt</h2>
+<p><span class="todo">[Vor- und Nachname bzw. Firma]</span>, Anschrift wie oben (§ 18 Abs. 2 MStV).</p>
+<h2>Haftung für Links</h2>
+<p>Diese Website enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter verantwortlich.</p>
+<h2>Verbraucherstreitbeilegung</h2>
+<p>Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+</main>
+<footer><div class="wrap">
+  <span>© 2026 Flondy · Check your Love · Nur zur Unterhaltung – kein wissenschaftlicher Test.</span>
+  <nav aria-label="Footer"><a href="datenschutz.html">Datenschutz</a><a href="impressum.html">Impressum</a><a href="mailto:contact@flondy.com">Kontakt</a><a href="en/">English</a></nav>
+</div></footer>
+<script>
+(function () {
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) { els.forEach(function (e) { e.classList.add('in'); }); return; }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+  }, { rootMargin: '0px 0px -8% 0px' });
+  els.forEach(function (e) { io.observe(e); });
+})();
+</script>
+</body>
+</html>

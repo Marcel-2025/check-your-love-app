@@ -125,7 +125,7 @@ gradle.taskGraph.whenReady {
     if (buildsRelease && releaseAdmobAppId.isBlank()) {
         throw GradleException(
             "Release-Build: cyl.admobAppId ist nicht gesetzt. Trage die AdMob-App-ID in " +
-                "monetization.properties ein (siehe docs/MONETARISIERUNG.md)."
+                "monetization.properties ein (siehe dokumentation/MONETARISIERUNG.md)."
         )
     }
 }
