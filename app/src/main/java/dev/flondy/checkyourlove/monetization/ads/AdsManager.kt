@@ -11,7 +11,10 @@ import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.google.android.gms.ads.OnUserEarnedRewardListener
 import com.google.android.gms.ads.rewarded.RewardedAd
+import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAd
+import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAdLoadCallback
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.google.android.ump.ConsentInformation
 import com.google.android.ump.ConsentRequestParameters
@@ -27,7 +30,19 @@ import kotlinx.coroutines.withContext
 import java.util.concurrent.atomic.AtomicBoolean
 
 /** Konfiguration der Anzeigenblöcke; leere ID = Format deaktiviert. */
-data class AdUnits(val banner: String, val interstitial: String, val rewarded: String)
+data class AdUnits(
+    val banner: String,
+    val interstitial: String,
+    val rewarded: String,
+    /** true = AdMob-Format „Interstitial mit Prämie“, false = „Mit Prämie“ (Rewarded). */
+    val rewardedIsInterstitial: Boolean = false,
+)
+
+/** Gemeinsame Sicht auf RewardedAd und RewardedInterstitialAd. */
+private class LoadedReward(
+    val setCallback: (FullScreenContentCallback) -> Unit,
+    val show: (Activity, OnUserEarnedRewardListener) -> Unit,
+)
 
 enum class RewardedStatus { IDLE, LOADING, READY, UNAVAILABLE }
 
@@ -68,7 +83,7 @@ class AdsManager(
 
     private var interstitial: InterstitialAd? = null
     private var interstitialLoading = false
-    private var rewarded: RewardedAd? = null
+    private var rewarded: LoadedReward? = null
     private var testsThisSession = 0
     @Volatile private var pendingRewardedLoad = false
 
@@ -216,18 +231,28 @@ class AdsManager(
             return
         }
         _rewardedStatus.value = RewardedStatus.LOADING
-        RewardedAd.load(appContext, units.rewarded, newRequest(), object : RewardedAdLoadCallback() {
-            override fun onAdLoaded(ad: RewardedAd) {
-                rewarded = ad
-                _rewardedStatus.value = RewardedStatus.READY
-            }
-
-            override fun onAdFailedToLoad(error: LoadAdError) {
-                rewarded = null
-                _rewardedStatus.value = RewardedStatus.UNAVAILABLE
-                Log.i(TAG, "Rewarded not loaded: ${error.code}")
-            }
-        })
+        val onFailed: (LoadAdError) -> Unit = { error ->
+            rewarded = null
+            _rewardedStatus.value = RewardedStatus.UNAVAILABLE
+            Log.i(TAG, "Rewarded not loaded: ${error.code}")
+        }
+        if (units.rewardedIsInterstitial) {
+            RewardedInterstitialAd.load(appContext, units.rewarded, newRequest(), object : RewardedInterstitialAdLoadCallback() {
+                override fun onAdLoaded(ad: RewardedInterstitialAd) {
+                    rewarded = LoadedReward({ ad.fullScreenContentCallback = it }, { a, l -> ad.show(a, l) })
+                    _rewardedStatus.value = RewardedStatus.READY
+                }
+                override fun onAdFailedToLoad(error: LoadAdError) = onFailed(error)
+            })
+        } else {
+            RewardedAd.load(appContext, units.rewarded, newRequest(), object : RewardedAdLoadCallback() {
+                override fun onAdLoaded(ad: RewardedAd) {
+                    rewarded = LoadedReward({ ad.fullScreenContentCallback = it }, { a, l -> ad.show(a, l) })
+                    _rewardedStatus.value = RewardedStatus.READY
+                }
+                override fun onAdFailedToLoad(error: LoadAdError) = onFailed(error)
+            })
+        }
     }
 
     /**
@@ -240,7 +265,7 @@ class AdsManager(
         rewarded = null
         _rewardedStatus.value = RewardedStatus.IDLE
         var earned = false
-        ad.fullScreenContentCallback = object : FullScreenContentCallback() {
+        ad.setCallback(object : FullScreenContentCallback() {
             override fun onAdDismissedFullScreenContent() {
                 onClosed(earned)
                 loadRewarded()
@@ -250,7 +275,7 @@ class AdsManager(
                 onClosed(false)
                 loadRewarded()
             }
-        }
+        })
         ad.show(activity) {
             earned = true
             onReward()

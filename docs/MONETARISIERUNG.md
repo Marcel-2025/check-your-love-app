@@ -8,9 +8,9 @@ Ergebnisanzeige bleiben immer kostenlos. Premium verändert nie ein Ergebnis.
 | Baustein | Umsetzung im Code | Getestet | Noch extern nötig |
 |---|---|---|---|
 | Einwilligung (UMP 4.0) | fertig – Abfrage vor jeder Anzeigenanfrage, Datenschutz-Optionen in den Einstellungen, Debug-Reset | Ablauf in Robolectric ohne Absturz; echtes Formular nur auf Gerät prüfbar | DSGVO-Nachricht in AdMob → *Datenschutz & Mitteilungen* anlegen |
-| Banner (adaptiv, verankert) | fertig – nur auf „Liebestest“ und „Verlauf“, eigener Bereich über der Navigation, ausgeblendet bei Tastatur und Ladefehler | Layout per Screenshot; echte Auslieferung nicht prüfbar | AdMob-App-ID eintragen; vorhandene Banner-ID `…/4122761666` prüfen |
-| Interstitial | fertig – nur bei „Neuer Test“, frühestens ab Test 3 der Sitzung, mind. 4 Tests **und** 5 Minuten Abstand | Häufigkeitslogik per Unit-Test | Anzeigenblock in AdMob anlegen → `cyl.admobInterstitialId` |
-| Rewarded (24 h Design/Effekt/Vorlage) | fertig – Erklärdialog vorab, Belohnung nur im `OnUserEarnedRewardListener`, automatische Sperre nach 24 h | Ablauf/Abbruch per UI-Test, Ablauflogik per Unit-Test; echte Videos nur auf Gerät | Anzeigenblock anlegen → `cyl.admobRewardedId` |
+| Banner (adaptiv, verankert) | fertig – nur auf „Liebestest“ und „Verlauf“, eigener Bereich über der Navigation, ausgeblendet bei Tastatur und Ladefehler | Layout per Screenshot; echte Auslieferung nicht prüfbar | ✅ App-ID und Banner-ID eingetragen |
+| Interstitial | fertig – nur bei „Neuer Test“, frühestens ab Test 3 der Sitzung, mind. 4 Tests **und** 5 Minuten Abstand | Häufigkeitslogik per Unit-Test | ✅ eingetragen (`…/3574734687`) |
+| Rewarded (24 h Design/Effekt/Vorlage) | fertig – Erklärdialog vorab, Belohnung nur im `OnUserEarnedRewardListener`, automatische Sperre nach 24 h | Ablauf/Abbruch per UI-Test, Ablauflogik per Unit-Test; echte Videos nur auf Gerät | ✅ eingetragen (`…/8025864012`, Format „Interstitial mit Prämie“) |
 | Premium-Kauf (Play Billing 9.1) | fertig – Kauf, ausstehend, Abbruch, Fehler, Bestätigung (acknowledge), Wiederherstellung, Erstattung/Widerruf beim nächsten Abgleich | Kauflogik per Unit-Test, kompletter Ablauf mit **Simulation** (nur Debug) per UI-Test | In-App-Produkt anlegen → `cyl.premiumProductId`, Lizenzschlüssel → `cyl.playLicenseKey` |
 | Kaufprüfung | Signaturprüfung mit öffentlichem Lizenzschlüssel; keine lokale „Premium = true“-Variable | Unit-Test mit echtem RSA-Schlüssel | Schlüssel eintragen (siehe unten) |
 
@@ -25,6 +25,9 @@ Alle Werte stehen in `monetization.properties` (keine Geheimnisse) und können p
 `-Pcyl.…=…` überschrieben werden.
 
 ## Schritte in AdMob
+
+> Stand: App-ID, Banner, Interstitial und Interstitial mit Prämie sind in `monetization.properties` eingetragen.
+> Falls der Prämien-Block doch das Format „Mit Prämie“ hat: `cyl.admobRewardedFormat=rewarded` setzen.
 
 1. AdMob → *Apps* → App „Check your Love“ (Paket `dev.flondy.checkyourlove`) auswählen bzw.
    mit dem Play-Eintrag verknüpfen. Die **App-ID** (`ca-app-pub-5414395840028991~…`)

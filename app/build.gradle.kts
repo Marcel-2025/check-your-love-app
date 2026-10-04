@@ -26,6 +26,9 @@ val testAdmobAppId = "ca-app-pub-3940256099942544~3347511713"
 val testBannerId = "ca-app-pub-3940256099942544/9214589741"
 val testInterstitialId = "ca-app-pub-3940256099942544/1033173712"
 val testRewardedId = "ca-app-pub-3940256099942544/5224354917"
+val testRewardedInterstitialId = "ca-app-pub-3940256099942544/5354046379"
+// Format des Prämien-Anzeigenblocks: "rewarded_interstitial" (Interstitial mit Prämie) oder "rewarded"
+val rewardedIsInterstitial = cfg("cyl.admobRewardedFormat").ifBlank { "rewarded" } == "rewarded_interstitial"
 
 val releaseAdmobAppId = cfg("cyl.admobAppId")
 
@@ -45,6 +48,7 @@ android {
         buildConfigField("String", "PREMIUM_PRODUCT_ID", cfg("cyl.premiumProductId").asBuildConfigString())
         buildConfigField("String", "PLAY_LICENSE_KEY", cfg("cyl.playLicenseKey").asBuildConfigString())
         buildConfigField("String", "PRIVACY_POLICY_URL", cfg("cyl.privacyPolicyUrl").asBuildConfigString())
+        buildConfigField("boolean", "AD_REWARDED_IS_INTERSTITIAL", rewardedIsInterstitial.toString())
     }
 
     buildTypes {
@@ -53,7 +57,10 @@ android {
             manifestPlaceholders["admobAppId"] = testAdmobAppId
             buildConfigField("String", "AD_BANNER_ID", testBannerId.asBuildConfigString())
             buildConfigField("String", "AD_INTERSTITIAL_ID", testInterstitialId.asBuildConfigString())
-            buildConfigField("String", "AD_REWARDED_ID", testRewardedId.asBuildConfigString())
+            buildConfigField(
+                "String", "AD_REWARDED_ID",
+                (if (rewardedIsInterstitial) testRewardedInterstitialId else testRewardedId).asBuildConfigString(),
+            )
             // Simulierte Käufe nur im Debug-Build und nur, solange keine echte Produkt-ID gesetzt ist
             buildConfigField("boolean", "ALLOW_SIMULATED_BILLING", "true")
         }

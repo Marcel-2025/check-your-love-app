@@ -44,6 +44,7 @@ class AppContainer(context: Context) {
             banner = BuildConfig.AD_BANNER_ID,
             interstitial = BuildConfig.AD_INTERSTITIAL_ID,
             rewarded = BuildConfig.AD_REWARDED_ID,
+            rewardedIsInterstitial = BuildConfig.AD_REWARDED_IS_INTERSTITIAL,
         ),
         settings = settings,
         scope = appScope,
