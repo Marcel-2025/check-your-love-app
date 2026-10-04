@@ -18,6 +18,8 @@ SITE = {
     "owner_country_de": "Deutschland",
     "owner_country_en": "Germany",
     "email": "flondy.dev@gmail.com",
+    # Öffentliche Adresse der Website (GitHub Pages)
+    "base_url": "https://marcel-2025.github.io/Check-your-Love/",
     # Google-Play-Eintrag. Leer lassen, solange die App noch nicht veröffentlicht ist.
     "play_url": "",
     "updated_de": "5. Oktober 2026",
@@ -67,7 +69,7 @@ def head(lang, title, desc, base, canonical_path, alt_path, extra_class=""):
 <meta property="og:type" content="website">
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
-<meta property="og:image" content="{base}assets/img/og-image.png">
+<meta property="og:image" content="{SITE['base_url']}assets/img/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="alternate" hreflang="{other}" href="{alt_path}">
 <link rel="icon" type="image/png" href="{base}assets/img/favicon-64.png">
