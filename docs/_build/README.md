@@ -16,9 +16,10 @@ Keine Cookies, kein Tracking, alle Schriften und Bilder lokal.
 
 ## Vor dem Veröffentlichen
 
-1. **Platzhalter ersetzen** (gelb markiert): Name/Firma, Straße, PLZ/Ort in `SITE` oben in
-   `_build/build_site.py` eintragen, dann im Projektordner ausführen:
-   `python3 docs/_build/build_site.py`
+1. **Anbieterangaben** stehen in `SITE` oben in `_build/build_site.py` (Name, Anschrift, E-Mail).
+   Nach Änderungen im Projektordner ausführen: `python3 docs/_build/build_site.py`
+   Für ein vollständiges Impressum nach § 5 DDG sind der volle Vor- und Nachname und eine
+   ladungsfähige Anschrift mit Straße nötig (Feld `owner_street`).
 2. Nach Veröffentlichung der App `play_url` in `SITE` setzen
    (`https://play.google.com/store/apps/details?id=dev.flondy.checkyourlove`) – der Button
    „Bald bei Google Play“ wird dann zum Download-Link.

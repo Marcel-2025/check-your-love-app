@@ -11,13 +11,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 SITE = {
-    # Anbieter/Verantwortlicher – PLATZHALTER ERSETZEN
-    "owner_name": '<span class="todo">[Vor- und Nachname bzw. Firma]</span>',
-    "owner_street": '<span class="todo">[Straße und Hausnummer]</span>',
-    "owner_city": '<span class="todo">[PLZ Ort]</span>',
+    # Anbieter/Verantwortlicher
+    "owner_name": "Marcel S. / Flondy",
+    "owner_street": "",
+    "owner_city": "88605 Meßkirch",
     "owner_country_de": "Deutschland",
     "owner_country_en": "Germany",
-    "email": "contact@flondy.com",
+    "email": "flondy.dev@gmail.com",
     # Google-Play-Eintrag. Leer lassen, solange die App noch nicht veröffentlicht ist.
     "play_url": "",
     "updated_de": "5. Oktober 2026",
@@ -335,8 +335,10 @@ def landing(lang):
 def controller_block(lang):
     country = SITE["owner_country_de"] if lang == "de" else SITE["owner_country_en"]
     mail = "E-Mail" if lang == "de" else "Email"
-    return (f'<div class="box"><p style="margin:0">{SITE["owner_name"]}<br>{SITE["owner_street"]}<br>'
-            f'{SITE["owner_city"]}<br>{country}<br>{mail}: <a href="mailto:{SITE["email"]}">{SITE["email"]}</a></p></div>')
+    lines = [SITE["owner_name"], SITE["owner_street"], SITE["owner_city"], country]
+    address = "<br>".join(x for x in lines if x)
+    return (f'<div class="box"><p style="margin:0">{address}<br>'
+            f'{mail}: <a href="mailto:{SITE["email"]}">{SITE["email"]}</a></p></div>')
 
 
 def privacy_de():

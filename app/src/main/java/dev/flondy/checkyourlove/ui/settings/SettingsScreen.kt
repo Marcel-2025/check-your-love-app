@@ -279,7 +279,7 @@ fun SettingsScreen(
                 LinkRow(
                     title = stringResource(R.string.settings_contact), external = true,
                     onClick = {
-                        val intent = Intent(Intent.ACTION_SENDTO, "mailto:contact@flondy.com".toUri())
+                        val intent = Intent(Intent.ACTION_SENDTO, "mailto:flondy.dev@gmail.com".toUri())
                             .putExtra(Intent.EXTRA_SUBJECT, subject)
                         runCatching { context.startActivity(intent) }
                     },
