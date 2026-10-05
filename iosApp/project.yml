@@ -1,0 +1,81 @@
+# XcodeGen-Projektbeschreibung für die iOS-App.
+# Auf dem Mac:  brew install xcodegen  &&  cd iosApp  &&  xcodegen generate
+# Danach CheckYourLove.xcodeproj in Xcode öffnen.
+name: CheckYourLove
+options:
+  bundleIdPrefix: dev.flondy
+  deploymentTarget:
+    iOS: "16.0"
+  createIntermediateGroups: true
+  developmentLanguage: de
+configFiles:
+  Debug: Configuration/Debug.xcconfig
+  Release: Configuration/Release.xcconfig
+packages:
+  GoogleMobileAds:
+    url: https://github.com/googleads/swift-package-manager-google-mobile-ads.git
+    from: 13.11.0
+  GoogleUserMessagingPlatform:
+    url: https://github.com/googleads/swift-package-manager-google-user-messaging-platform.git
+    from: 3.1.0
+targets:
+  CheckYourLove:
+    type: application
+    platform: iOS
+    sources:
+      - path: iosApp
+        excludes:
+          - "Info.plist"
+      - path: Configuration/Products.storekit
+        buildPhase: none
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.flondy.checkyourlove
+        PRODUCT_NAME: CheckYourLove
+        INFOPLIST_FILE: iosApp/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
+        MARKETING_VERSION: "2.0"
+        CURRENT_PROJECT_VERSION: "1"
+        TARGETED_DEVICE_FAMILY: "1"
+        SUPPORTS_MACCATALYST: NO
+        SUPPORTED_PLATFORMS: "iphoneos iphonesimulator"
+        CODE_SIGN_STYLE: Automatic
+        # DEVELOPMENT_TEAM bitte in Xcode unter „Signing & Capabilities“ wählen
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        SWIFT_VERSION: "5.0"
+        ENABLE_USER_SCRIPT_SANDBOXING: NO
+        FRAMEWORK_SEARCH_PATHS: "$(inherited) $(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)"
+        OTHER_LDFLAGS: "$(inherited) -framework Shared"
+        LOCALIZATION_PREFERS_STRING_CATALOGS: NO
+    dependencies:
+      - package: GoogleMobileAds
+        product: GoogleMobileAds
+      - package: GoogleUserMessagingPlatform
+        product: GoogleUserMessagingPlatform
+      - sdk: StoreKit.framework
+    preBuildScripts:
+      - name: Kotlin-Framework bauen (Gradle)
+        basedOnDependencyAnalysis: false
+        script: |
+          if [ "YES" = "$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED" ]; then
+            echo "Kotlin-Build durch IDE übersprungen"
+            exit 0
+          fi
+          # Java für Gradle: JAVA_HOME oder das mit Android Studio gelieferte JDK
+          if [ -z "$JAVA_HOME" ] && [ -d "/Applications/Android Studio.app/Contents/jbr/Contents/Home" ]; then
+            export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
+          fi
+          cd "$SRCROOT/.."
+          ./gradlew :shared:embedAndSignAppleFrameworkForXcode
+schemes:
+  CheckYourLove:
+    build:
+      targets:
+        CheckYourLove: all
+    run:
+      config: Debug
+      # Lokale Testkäufe ohne App Store Connect (nur Simulator/Debug)
+      storeKitConfiguration: Configuration/Products.storekit
+    archive:
+      config: Release

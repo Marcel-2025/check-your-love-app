@@ -1,0 +1,11 @@
+// Debug: ausschließlich offizielle Google-Testanzeigen
+// https://developers.google.com/admob/ios/test-ads
+ADMOB_APP_ID = ca-app-pub-3940256099942544~1458002511
+AD_BANNER_ID = ca-app-pub-3940256099942544/2435281174
+AD_INTERSTITIAL_ID = ca-app-pub-3940256099942544/4411468910
+// Format „Interstitial mit Prämie“ (wie Android). Test-ID für dieses Format:
+AD_REWARDED_ID = ca-app-pub-3940256099942544/6978759866
+AD_REWARDED_IS_INTERSTITIAL = YES
+// Produkt-ID passend zur lokalen StoreKit-Testkonfiguration (Products.storekit)
+PREMIUM_PRODUCT_ID = premium_unlock
+PRIVACY_POLICY_URL = https:/$()/marcel-2025.github.io/Check-your-Love/datenschutz.html

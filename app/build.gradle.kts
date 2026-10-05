@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.ksp)
     alias(libs.plugins.roborazzi)
 }
 
@@ -112,11 +111,6 @@ kotlin {
     }
 }
 
-ksp {
-    arg("room.schemaLocation", "$projectDir/schemas")
-    arg("room.generateKotlin", "true")
-}
-
 // Release-Builds ohne AdMob-App-ID wären nicht lauffähig (das Werbe-SDK bricht beim Start ab).
 // Statt eine ID zu erfinden, schlägt der Release-Build mit einer klaren Anleitung fehl.
 gradle.taskGraph.whenReady {
@@ -131,13 +125,14 @@ gradle.taskGraph.whenReady {
 }
 
 dependencies {
+    implementation(project(":shared"))
+    implementation(libs.cmp.resources)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.process)
-    implementation(libs.androidx.navigation.compose)
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
@@ -148,10 +143,7 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler)
-    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.sqlite.framework)
     implementation(libs.kotlinx.coroutines.android)
 
     implementation(libs.billing.ktx)
@@ -165,6 +157,7 @@ dependencies {
     testImplementation(libs.androidx.test.core)
     testImplementation(libs.androidx.test.ext.junit)
     testImplementation(libs.androidx.room.testing)
+    testImplementation(libs.androidx.room.runtime)
     testImplementation(platform(libs.androidx.compose.bom))
     testImplementation(libs.androidx.compose.ui.test.junit4)
     testImplementation(libs.roborazzi)

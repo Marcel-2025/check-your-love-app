@@ -3,22 +3,22 @@
 Liebestest-App (Unterhaltung) – vollständig neu aufgebaut mit Kotlin, Jetpack Compose und Material 3.
 Paketname `dev.flondy.checkyourlove`, versionCode 4, versionName 2.0.
 
-## Aufbau
+## Aufbau (Kotlin Multiplatform: Android + iOS)
 
 ```
-app/src/main/java/dev/flondy/checkyourlove/
-├── CheckYourLoveApp.kt        Application + AppContainer (manuelle DI)
-├── MainActivity.kt            einzige Activity, Splash, Edge-to-Edge
-├── core/                      Ergebnislogik (rein, ohne Android) + Ergebnistexte
-├── data/                      Room-DB (Verlauf, Migration), DataStore (Einstellungen)
-├── monetization/              Premium-Katalog, Berechtigungen, Billing, Werbung
-└── ui/                        Theme, Komponenten, Screens (Test, Verlauf, Einstellungen, Premium, Teilen)
+shared/   gemeinsamer Code für Android und iOS (Compose Multiplatform)
+  commonMain/  Ergebnislogik, Room/DataStore, ViewModels, komplette Oberfläche, Texte, Schriften,
+               Monetarisierungslogik (Berechtigungen, Werbe-Frequenz, Belohnungen)
+  androidMain/ Plattformdetails Android (Normalisierung, Datumsformat, Datenbankpfad …)
+  iosMain/     Plattformdetails iOS, StoreKit-Gateway, Einstieg MainViewController
+app/      Android-App: Play Billing, AdMob/UMP Android, Teilen, Splash, Icons
+iosApp/   iOS-App: SwiftUI-Hülle, StoreKit 2, AdMob/UMP iOS, ATT (XcodeGen-Projekt)
+docs/     Website für GitHub Pages
 ```
 
-- UI-Zustand in ViewModels (`StateFlow`), Daten in Repositories, keine Arbeit auf dem Hauptthread
-  (Room/DataStore suspend, Teilen-Bilder auf `Dispatchers.Default`).
-- Navigation mit Navigation-Compose statt wiederholtem `setContentView()`.
-- Rotation: ViewModels bleiben erhalten; Prozessende: Namen und Ergebnisanzeige über `SavedStateHandle`.
+- UI-Zustand in ViewModels (`StateFlow`), Daten in Repositories, keine Arbeit auf dem Hauptthread.
+- Navigation mit Navigation-Compose (Multiplatform).
+- iOS bauen: siehe [dokumentation/IOS-MAC-ANLEITUNG.md](dokumentation/IOS-MAC-ANLEITUNG.md).
 
 ## Ergebnislogik (Version 2)
 
@@ -57,13 +57,11 @@ Release: siehe [dokumentation/MONETARISIERUNG.md](dokumentation/MONETARISIERUNG.
 
 ### Versionen
 
-AGP 8.13.2, Gradle 8.14.3, Kotlin 2.3.21, Compose BOM 2026.06.01 (Compose 1.11, Material 3 1.4),
-compileSdk/targetSdk 36, minSdk 24, Room 2.8.5, Play Billing 9.1.0, Google Mobile Ads 25.5.0,
-UMP 4.0.0.
+AGP 9.4.1, Gradle 9.6.0, Kotlin 2.3.21, Compose Multiplatform 1.11.1 (Compose 1.11, Material 3 1.4),
+compileSdk/targetSdk 36, minSdk 24, Room 2.8.5 (KMP), DataStore 1.2.1 (KMP), Play Billing 9.1.0,
+Google Mobile Ads 25.5.0 / iOS 13.11, UMP 4.0.0 / iOS 3.1, iOS ab 16.0.
 
-Compose 1.12 / core-ktx 1.19 verlangen AGP 9.1 und compileSdk 37. Da das Projekt zuletzt mit
-AGP 8.13 in Android Studio geöffnet wurde, ist bewusst die neueste dazu kompatible Linie gewählt.
-Ein späteres Upgrade gelingt mit dem AGP-Upgrade-Assistenten.
+Compose 1.12 (Compose Multiplatform 1.12) verlangt compileSdk 37 – ein späteres Upgrade ist mit AGP 9.4 möglich.
 
 minSdk stieg von 21 auf 24, weil Google Mobile Ads 25 und Play Billing 8+ das voraussetzen
 (Android 5/6 entfallen). targetSdk stieg von 24 auf 36 (Play-Pflicht).

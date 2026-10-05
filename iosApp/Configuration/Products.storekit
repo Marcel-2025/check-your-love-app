@@ -1,0 +1,36 @@
+{
+  "identifier" : "C3A5F1E2",
+  "nonRenewingSubscriptions" : [],
+  "products" : [
+    {
+      "displayPrice" : "2.99",
+      "familyShareable" : false,
+      "internalID" : "6740000001",
+      "localizations" : [
+        {
+          "description" : "Keine Werbung, exklusive Designs, Animationen und Teilen-Vorlagen.",
+          "displayName" : "Check your Love Premium",
+          "locale" : "de"
+        },
+        {
+          "description" : "No ads, exclusive designs, animations and share cards.",
+          "displayName" : "Check your Love Premium",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "premium_unlock",
+      "referenceName" : "Premium (lokaler Test)",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_applicationInternalID" : "",
+    "_developerTeamID" : "",
+    "_failTransactionsEnabled" : false,
+    "_locale" : "de",
+    "_storefront" : "DEU",
+    "_storeKitErrors" : []
+  },
+  "subscriptionGroups" : [],
+  "version" : { "major" : 3, "minor" : 0 }
+}

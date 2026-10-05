@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Check your Love</string>
+
+    <!-- Navigation -->
+    <string name="nav_test">Love test</string>
+    <string name="nav_history">History</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_back">Back</string>
+    <string name="premium_open">Open Premium</string>
+
+    <!-- Test screen -->
+    <string name="test_headline">How strong is your bond?</string>
+    <string name="test_subtitle">Enter two names and let the heart decide.</string>
+    <string name="field_name_a">Your name</string>
+    <string name="field_name_b">Your crush’s name</string>
+    <string name="field_name_a_placeholder">e.g. Alex</string>
+    <string name="field_name_b_placeholder">e.g. Sam</string>
+    <string name="field_counter">%1$d/%2$d</string>
+    <string name="error_name_empty">Please enter a name.</string>
+    <string name="error_name_no_letter">A name needs at least one letter.</string>
+    <string name="error_name_too_long">At most %1$d characters, please.</string>
+    <string name="action_swap">Swap names</string>
+    <string name="action_reset">Clear inputs</string>
+    <string name="action_check">Check love</string>
+    <string name="action_check_hint">Tap the heart</string>
+    <string name="evaluating">The heart is listening…</string>
+    <string name="evaluating_a11y">Calculating result</string>
+    <string name="action_new_test">New test</string>
+    <string name="action_favorite_add">Add to favourites</string>
+    <string name="action_favorite_remove">Remove from favourites</string>
+    <string name="action_share">Share</string>
+    <string name="entertainment_note">Just for fun – not a scientific test of real compatibility.</string>
+    <string name="result_pair">%1$s &amp; %2$s</string>
+    <string name="result_percent">%1$d %</string>
+    <string name="result_a11y">%1$s and %2$s: %3$d percent. %4$s</string>
+    <string name="result_saved_failed">The result could not be saved to your history.</string>
+
+    <!-- Result titles per range -->
+    <string name="result_title_0">Best friends material</string>
+    <string name="result_title_1">Room to grow</string>
+    <string name="result_title_2">Something is there</string>
+    <string name="result_title_3">Strong connection</string>
+    <string name="result_title_4">Heart flutters</string>
+    <string name="result_title_5">Soulmates</string>
+
+    <!-- Result texts: 0–19 -->
+    <string name="result_text_0_0">The stars are a little shy today. Maybe it becomes a wonderful friendship – those often last the longest.</string>
+    <string name="result_text_0_1">A small number – but real feelings can’t be measured in percent anyway.</string>
+    <string name="result_text_0_2">The love test just shrugs. Luckily, you two decide – not an app.</string>
+    <!-- 20–39 -->
+    <string name="result_text_1_0">A gentle spark. Add some humour and a few pizza nights and who knows?</string>
+    <string name="result_text_1_1">Plenty of room for surprises – and surprises are fun.</string>
+    <string name="result_text_1_2">Opposites attract, they say. Why not find out?</string>
+    <!-- 40–59 -->
+    <string name="result_text_2_0">Right in the middle: the perfect mix of common ground and things to talk about.</string>
+    <string name="result_text_2_1">There’s definitely something here. Now someone just has to make the first move.</string>
+    <string name="result_text_2_2">Half full, not half empty – lots of potential here.</string>
+    <!-- 60–79 -->
+    <string name="result_text_3_0">Sparks are flying! You go together like coffee and croissants.</string>
+    <string name="result_text_3_1">A strong connection – this looks like long talks late into the night.</string>
+    <string name="result_text_3_2">Lovely numbers! A smile is pretty much guaranteed.</string>
+    <!-- 80–94 -->
+    <string name="result_text_4_0">Heart flutters guaranteed! You two make a pretty great team.</string>
+    <string name="result_text_4_1">Wow – the chemistry between you is right.</string>
+    <string name="result_text_4_2">So much harmony, even the stars are getting jealous.</string>
+    <!-- 95–100 -->
+    <string name="result_text_5_0">Soulmates! If there were a soundtrack, it would start playing now.</string>
+    <string name="result_text_5_1">Almost perfect – you two seem made for each other.</string>
+    <string name="result_text_5_2">Bullseye! Cupid clearly had a very good aim today.</string>
+
+    <!-- History -->
+    <string name="history_title">History</string>
+    <string name="history_filter_all">All</string>
+    <string name="history_filter_favorites">Favourites</string>
+    <string name="history_empty_title">No tests yet</string>
+    <string name="history_empty_text">Your results will appear here – stored only on this device.</string>
+    <string name="history_empty_favorites_title">No favourites yet</string>
+    <string name="history_empty_favorites_text">Tap the heart on a result to keep it here.</string>
+    <string name="history_start_test">Start a test</string>
+    <string name="history_delete_item">Delete result</string>
+    <string name="history_deleted">Result deleted</string>
+    <string name="history_undo">Undo</string>
+    <string name="history_clear">Clear history</string>
+    <string name="history_clear_title">Clear history?</string>
+    <string name="history_clear_text">This removes your results from this device. This cannot be undone.</string>
+    <string name="history_clear_keep_favorites">Keep favourites</string>
+    <string name="history_clear_confirm">Delete</string>
+    <string name="history_cleared">History cleared</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_close">Close</string>
+
+    <!-- Share -->
+    <string name="share_title">Share result</string>
+    <string name="share_template">Card style</string>
+    <string name="share_button">Share as image</string>
+    <string name="share_preparing">Preparing image…</string>
+    <string name="share_failed">The image could not be created.</string>
+    <string name="share_chooser">Share result</string>
+    <string name="share_text">%1$s &amp; %2$s: %3$d % ❤ – Check your Love (just for fun)</string>
+    <string name="share_card_note">Just for fun</string>
+    <string name="share_names_hint">The image contains both names. Only share it if that’s okay for both of you.</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_section_appearance">Appearance</string>
+    <string name="settings_mode">Mode</string>
+    <string name="settings_mode_system">System</string>
+    <string name="settings_mode_light">Light</string>
+    <string name="settings_mode_dark">Dark</string>
+    <string name="settings_palette">Design</string>
+    <string name="settings_effect">Result animation</string>
+    <string name="settings_effect_hint">Plays for results of 80 % and above.</string>
+    <string name="settings_section_motion">Motion &amp; feedback</string>
+    <string name="settings_haptics">Haptic feedback</string>
+    <string name="settings_haptics_desc">Gentle vibration for actions and results</string>
+    <string name="settings_motion">Reduce motion</string>
+    <string name="settings_motion_system">System</string>
+    <string name="settings_motion_on">On</string>
+    <string name="settings_motion_off">Off</string>
+    <string name="settings_section_premium">Premium</string>
+    <string name="settings_premium_active">Premium is active</string>
+    <string name="settings_premium_inactive">Remove ads &amp; unlock designs</string>
+    <string name="settings_restore">Restore purchases</string>
+    <string name="settings_section_privacy">Privacy</string>
+    <string name="settings_privacy_local">Names and history stay on this device and are never sent to ad or analytics services.</string>
+    <string name="settings_privacy_options">Ad privacy settings</string>
+    <string name="settings_privacy_policy">Privacy policy</string>
+    <string name="settings_consent_reset">Reset consent (debug)</string>
+    <string name="settings_consent_reset_done">Consent reset – it will be requested again on next start.</string>
+    <string name="settings_section_about">About</string>
+    <string name="settings_version">Version %1$s</string>
+    <string name="settings_about_text">Check your Love is an entertainment app. The result is calculated from the two names and is the same for the same pair every time – it says nothing about real feelings.</string>
+    <string name="settings_website">Website</string>
+    <string name="settings_more_apps">More apps by Flondy</string>
+    <string name="settings_contact">Contact</string>
+    <string name="settings_licenses">Licences</string>
+    <string name="settings_licenses_text">Fonts: DM Serif Display and Plus Jakarta Sans, licensed under the SIL Open Font License 1.1.\n\nThis app uses Kotlin Multiplatform, Compose Multiplatform, AndroidX, Google Play Billing (Android), StoreKit (iOS), Google Mobile Ads and the User Messaging Platform (Apache License 2.0 / provider terms).</string>
+    <string name="settings_contact_subject">Check your Love – feedback</string>
+
+    <!-- Locked items -->
+    <string name="locked_title">%1$s is a Premium item</string>
+    <string name="locked_text">Unlock it permanently with Premium, or try it free for 24 hours by watching a short video.</string>
+    <string name="locked_go_premium">View Premium</string>
+    <string name="locked_watch_video">Try for 24 h</string>
+    <string name="locked_badge">Premium</string>
+    <string name="unlocked_until">Unlocked until %1$s</string>
+
+    <!-- Palettes -->
+    <string name="palette_aubergine">Aubergine</string>
+    <string name="palette_midnight">Midnight</string>
+    <string name="palette_rose_gold">Rosé Gold</string>
+    <string name="palette_aurora">Aurora</string>
+    <string name="palette_blossom">Cherry Blossom</string>
+    <string name="palette_velvet">Velvet</string>
+
+    <!-- Effects -->
+    <string name="effect_none">None</string>
+    <string name="effect_confetti">Confetti</string>
+    <string name="effect_heart_rain">Heart rain</string>
+    <string name="effect_sparkle">Starburst</string>
+
+    <!-- Share templates -->
+    <string name="template_classic">Classic</string>
+    <string name="template_polaroid">Polaroid</string>
+    <string name="template_neon">Neon</string>
+    <string name="template_minimal">Minimal</string>
+
+    <!-- Premium -->
+    <string name="premium_title">Check your Love Premium</string>
+    <string name="premium_subtitle">Buy once, keep forever.</string>
+    <string name="premium_benefit_ads">No ads</string>
+    <string name="premium_benefit_ads_desc">Enjoy the app completely ad-free.</string>
+    <string name="premium_benefit_designs">4 exclusive designs</string>
+    <string name="premium_benefit_designs_desc">Rosé Gold, Aurora, Cherry Blossom and Velvet – in light and dark.</string>
+    <string name="premium_benefit_effects">2 extra result animations</string>
+    <string name="premium_benefit_effects_desc">Heart rain and starburst for high results.</string>
+    <string name="premium_benefit_share">3 premium share cards</string>
+    <string name="premium_benefit_share_desc">Polaroid, Neon and Minimal templates.</string>
+    <string name="premium_fair_note">Premium never changes a result – the calculation is the same for everyone.</string>
+    <string name="premium_preview">Design preview</string>
+    <string name="premium_buy">Unlock for %1$s</string>
+    <string name="premium_loading_price">Loading price…</string>
+    <string name="premium_one_time">One-time purchase · no subscription</string>
+    <string name="premium_owned">Premium is active – thank you!</string>
+    <string name="premium_pending">Purchase pending. Premium unlocks as soon as the payment is confirmed.</string>
+    <string name="premium_unavailable">Premium is currently unavailable. Please try again later.</string>
+    <string name="premium_not_configured">Premium is not available in this version yet.</string>
+    <string name="premium_restore">Restore purchases</string>
+    <string name="premium_try_title">Try before you buy</string>
+    <string name="premium_try_text">Watch a short, voluntary video to use one Premium item for 24 hours.</string>
+    <string name="premium_try_choose">Choose a reward</string>
+    <string name="premium_active_unlocks">Active trials</string>
+
+    <!-- Purchase results -->
+    <string name="purchase_success">Premium unlocked. Enjoy!</string>
+    <string name="purchase_pending">Payment pending – we’ll unlock Premium as soon as it’s confirmed.</string>
+    <string name="purchase_canceled">Purchase cancelled.</string>
+    <string name="purchase_failed">The purchase could not be completed. Please try again.</string>
+    <string name="purchase_already_owned">You already own Premium – it has been restored.</string>
+    <string name="purchase_restored">Premium restored.</string>
+    <string name="purchase_nothing_to_restore">No previous Premium purchase found for this store account.</string>
+    <string name="purchase_revoked">Premium is no longer active for this account (e.g. refunded).</string>
+    <string name="purchase_service_unavailable">The store is not reachable right now.</string>
+
+    <!-- Simulation (debug only) -->
+    <string name="sim_banner">Simulation – debug build only. No real purchase, no real money.</string>
+    <string name="sim_outcome">Next simulated result</string>
+    <string name="sim_success">Success</string>
+    <string name="sim_pending">Pending</string>
+    <string name="sim_cancel">Cancel</string>
+    <string name="sim_error">Error</string>
+    <string name="sim_complete_pending">Complete pending purchase</string>
+    <string name="sim_refund">Simulate refund</string>
+    <string name="sim_price">Test price</string>
+
+    <!-- Rewarded -->
+    <string name="reward_dialog_title">Free for 24 hours</string>
+    <string name="reward_dialog_text">Watch a short video ad to use “%1$s” for 24 hours. You only get the reward if you watch the video to the end. Afterwards the item is locked again automatically.</string>
+    <string name="reward_dialog_watch">Watch video</string>
+    <string name="reward_loading">Loading video…</string>
+    <string name="reward_unavailable">No video available right now. Please try again later.</string>
+    <string name="reward_granted">“%1$s” is unlocked until %2$s.</string>
+    <string name="reward_not_granted">The video was closed early – no reward this time.</string>
+    <string name="reward_kind_palette">Design</string>
+    <string name="reward_kind_effect">Animation</string>
+    <string name="reward_kind_template">Share card</string>
+
+    <!-- Ads -->
+    <string name="ad_label">Advertisement</string>
+</resources>

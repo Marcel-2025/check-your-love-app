@@ -23,17 +23,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.LoadAdError
-import dev.flondy.checkyourlove.R
+import dev.flondy.checkyourlove.resources.Res
+import dev.flondy.checkyourlove.resources.ad_label
 import dev.flondy.checkyourlove.ui.theme.LocalPalette
 
 /**
@@ -41,7 +43,7 @@ import dev.flondy.checkyourlove.ui.theme.LocalPalette
  * Navigation und überdeckt nie Eingaben oder Ergebnisse. Bei Ladefehlern verschwindet es.
  */
 @Composable
-fun BannerAd(adUnitId: String, ads: AdsManager, modifier: Modifier = Modifier) {
+fun BannerAd(adUnitId: String, onFailed: () -> Unit, modifier: Modifier = Modifier) {
     if (adUnitId.isBlank()) return
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -62,9 +64,9 @@ fun BannerAd(adUnitId: String, ads: AdsManager, modifier: Modifier = Modifier) {
                     setAdSize(adSize)
                     this.adUnitId = adUnitId
                     adListener = object : AdListener() {
-                        override fun onAdFailedToLoad(error: LoadAdError) { failed = true }
+                        override fun onAdFailedToLoad(error: LoadAdError) { failed = true; onFailed() }
                     }
-                    loadAd(ads.newRequest())
+                    loadAd(AdRequest.Builder().build())
                 }
             }
             DisposableEffect(adView, lifecycleOwner) {
@@ -83,7 +85,7 @@ fun BannerAd(adUnitId: String, ads: AdsManager, modifier: Modifier = Modifier) {
             }
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
-                    stringResource(R.string.ad_label),
+                    stringResource(Res.string.ad_label),
                     style = MaterialTheme.typography.labelSmall,
                     color = LocalPalette.current.onSurfaceVariant,
                 )

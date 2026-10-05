@@ -80,6 +80,15 @@ class LoveCalculatorTest {
         println("Anna & Ben = ${r.percent} %")
     }
 
+    @Test fun `own SHA-256 matches the platform implementation`() {
+        val rnd = Random(7)
+        repeat(300) { n ->
+            val input = ByteArray(n) { rnd.nextInt().toByte() }
+            val expected = java.security.MessageDigest.getInstance("SHA-256").digest(input)
+            assertThat(Sha256.digest(input)).isEqualTo(expected)
+        }
+    }
+
     @Test fun `result ranges cover 0 to 100 without gaps`() {
         (0..100).forEach { p -> assertThat(ResultRange.of(p).let { p in it.min..it.max }).isTrue() }
         assertThat(ResultRange.of(79)).isEqualTo(ResultRange.R3)

@@ -1,6 +1,6 @@
 package dev.flondy.checkyourlove.monetization.billing
 
-import android.app.Activity
+import dev.flondy.checkyourlove.CurrentActivity
 import android.content.Context
 import android.util.Log
 import com.android.billingclient.api.AcknowledgePurchaseParams
@@ -97,9 +97,10 @@ class PlayBillingGateway(
         scope.launch { sync(Source.RESTORE) }
     }
 
-    override fun launchPurchase(activity: Activity) {
+    override fun launchPurchase() {
+        val activity = CurrentActivity.get()
         val details = productDetails
-        if (details == null || !client.isReady) {
+        if (details == null || !client.isReady || activity == null) {
             _events.tryEmit(PurchaseEvent.SERVICE_UNAVAILABLE)
             refresh()
             return

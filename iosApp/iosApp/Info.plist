@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>de</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>de</string>
+		<string>en</string>
+	</array>
+	<key>CFBundleDisplayName</key>
+	<string>Check your Love</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>$(PRODUCT_NAME)</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(MARKETING_VERSION)</string>
+	<key>CFBundleVersion</key>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>UILaunchScreen</key>
+	<dict>
+		<key>UIColorName</key>
+		<string>LaunchBackground</string>
+		<key>UIImageName</key>
+		<string>LaunchHeart</string>
+	</dict>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<true/>
+
+	<!-- Google Mobile Ads -->
+	<key>GADApplicationIdentifier</key>
+	<string>$(ADMOB_APP_ID)</string>
+	<key>SKAdNetworkItems</key>
+	<array>
+		<dict>
+			<key>SKAdNetworkIdentifier</key>
+			<string>cstr6suwn9.skadnetwork</string>
+		</dict>
+	</array>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>Mit deiner Erlaubnis kann Werbung passender für dich ausgewählt werden. Deine eingegebenen Namen werden dabei nie weitergegeben.</string>
+
+	<!-- Eigene Werte für die App (aus Configuration/*.xcconfig) -->
+	<key>CYLBannerId</key>
+	<string>$(AD_BANNER_ID)</string>
+	<key>CYLInterstitialId</key>
+	<string>$(AD_INTERSTITIAL_ID)</string>
+	<key>CYLRewardedId</key>
+	<string>$(AD_REWARDED_ID)</string>
+	<key>CYLRewardedIsInterstitial</key>
+	<string>$(AD_REWARDED_IS_INTERSTITIAL)</string>
+	<key>CYLPremiumProductId</key>
+	<string>$(PREMIUM_PRODUCT_ID)</string>
+	<key>CYLPrivacyPolicyUrl</key>
+	<string>$(PRIVACY_POLICY_URL)</string>
+</dict>
+</plist>

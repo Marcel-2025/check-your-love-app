@@ -1,0 +1,11 @@
+// Release: echte IDs aus AdMob (App „Check your Love“ – iOS) und App Store Connect eintragen.
+// Leere Werte = dieses Format bzw. Premium ist deaktiviert. Ohne ADMOB_APP_ID wird keine Werbung geladen.
+// Hinweis: In .xcconfig-Dateien muss „//“ in URLs als „/$()/“ geschrieben werden.
+ADMOB_APP_ID =
+AD_BANNER_ID =
+AD_INTERSTITIAL_ID =
+AD_REWARDED_ID =
+AD_REWARDED_IS_INTERSTITIAL = YES
+// Produkt-ID des In-App-Kaufs (App Store Connect > App > Monetarisierung > In-App-Käufe, Typ „Nicht verbrauchbar“)
+PREMIUM_PRODUCT_ID =
+PRIVACY_POLICY_URL = https:/$()/marcel-2025.github.io/Check-your-Love/datenschutz.html

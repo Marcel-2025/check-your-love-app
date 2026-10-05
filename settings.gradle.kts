@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Check your Love"
 include(":app")
+include(":shared")

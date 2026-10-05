@@ -13,3 +13,9 @@
 *.jks
 *.keystore
 /.kotlin/
+/shared/build/
+/iosApp/*.xcodeproj
+/iosApp/build/
+xcuserdata/
+*.xcworkspace/xcuserdata/
+DerivedData/

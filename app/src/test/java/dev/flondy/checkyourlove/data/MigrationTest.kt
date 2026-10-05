@@ -42,27 +42,28 @@ class MigrationTest {
             db.insert("NameValuePairs", null, ContentValues().apply { putNull("Names"); putNull("Value") })
         }
 
-        val room = AppDatabase.create(context)
+        val room = AppDatabase.build(androidDatabaseBuilder(context))
         val dao = room.resultDao()
         assertThat(dao.legacyCount()).isEqualTo(4)
-
-        val sqlite = room.openHelper.readableDatabase
-        sqlite.query("SELECT name, value FROM legacy_name_values ORDER BY id").use { c ->
-            val rows = buildList { while (c.moveToNext()) add((if (c.isNull(0)) null else c.getString(0)) to (if (c.isNull(1)) null else c.getInt(1))) }
-            assertThat(rows).containsExactly("Anna" to 12, "Ben" to 49, "Zoë" to 0, null to null).inOrder()
-        }
-        sqlite.query("SELECT name FROM sqlite_master WHERE name = 'NameValuePairs'").use { assertThat(it.count).isEqualTo(0) }
-        assertThat(sqlite.version).isEqualTo(AppDatabase.VERSION)
 
         // neue Tabelle ist nach der Migration voll nutzbar
         val repo = HistoryRepository(dao) { 1L }
         repo.save("Anna", "Ben", LoveCalculator.calculate("Anna", "Ben"))
         assertThat(repo.observeAll().first()).hasSize(1)
         room.close()
+
+        val sqlite = SQLiteDatabase.openDatabase(context.getDatabasePath(AppDatabase.NAME).path, null, SQLiteDatabase.OPEN_READONLY)
+        sqlite.rawQuery("SELECT name, value FROM legacy_name_values ORDER BY id", null).use { c ->
+            val rows = buildList { while (c.moveToNext()) add((if (c.isNull(0)) null else c.getString(0)) to (if (c.isNull(1)) null else c.getInt(1))) }
+            assertThat(rows).containsExactly("Anna" to 12, "Ben" to 49, "Zoë" to 0, null to null).inOrder()
+        }
+        sqlite.rawQuery("SELECT name FROM sqlite_master WHERE name = 'NameValuePairs'", null).use { assertThat(it.count).isEqualTo(0) }
+        assertThat(sqlite.version).isEqualTo(AppDatabase.VERSION)
+        sqlite.close()
     }
 
     @Test fun `fresh install creates empty schema`() = runTest {
-        val room = AppDatabase.create(context)
+        val room = AppDatabase.build(androidDatabaseBuilder(context))
         assertThat(room.resultDao().legacyCount()).isEqualTo(0)
         assertThat(room.resultDao().observeAll().first()).isEmpty()
         room.close()
@@ -73,7 +74,7 @@ class MigrationTest {
             override fun onCreate(db: SQLiteDatabase) = Unit
             override fun onUpgrade(db: SQLiteDatabase, o: Int, n: Int) = Unit
         }.writableDatabase.close()
-        val room = AppDatabase.create(context)
+        val room = AppDatabase.build(androidDatabaseBuilder(context))
         assertThat(room.resultDao().legacyCount()).isEqualTo(0)
         room.close()
     }
