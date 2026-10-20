@@ -19,3 +19,6 @@
 xcuserdata/
 *.xcworkspace/xcuserdata/
 DerivedData/
+
+# Signierte Release-Ausgaben aus Android Studio
+/app/release/
