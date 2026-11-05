@@ -71,8 +71,8 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun rememberShareCardData(result: ResultUi): ShareCardData {
-    val title = stringResource(ResultTexts.title(result.range))
-    val text = stringResource(ResultTexts.text(result.range, result.variant))
+    val title = stringResource(ResultTexts.title(result.range, result.mode))
+    val text = stringResource(ResultTexts.text(result.range, result.variant, result.mode))
     val note = stringResource(Res.string.share_card_note)
     val app = stringResource(Res.string.app_name)
     return remember(result, title, text) {

@@ -18,6 +18,21 @@ import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.NavigationRailItemDefaults
 import androidx.compose.runtime.CompositionLocalProvider
 import dev.flondy.checkyourlove.ui.theme.LocalWindowLayout
+import dev.flondy.checkyourlove.content.Content
+import dev.flondy.checkyourlove.content.QuizPack
+import dev.flondy.checkyourlove.ui.group.GroupScreen
+import dev.flondy.checkyourlove.ui.group.GroupViewModel
+import dev.flondy.checkyourlove.ui.ideas.IdeasScreen
+import dev.flondy.checkyourlove.ui.ideas.IdeasViewModel
+import dev.flondy.checkyourlove.ui.quiz.QuizPhase
+import dev.flondy.checkyourlove.ui.quiz.QuizScreen
+import dev.flondy.checkyourlove.ui.quiz.QuizViewModel
+import androidx.compose.material.icons.outlined.Groups
+import androidx.compose.material.icons.outlined.Lightbulb
+import androidx.compose.material.icons.outlined.Quiz
+import androidx.compose.material.icons.rounded.Groups
+import androidx.compose.material.icons.rounded.Lightbulb
+import androidx.compose.material.icons.rounded.Quiz
 import dev.flondy.checkyourlove.ui.theme.WindowLayout
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.PaddingValues
@@ -108,15 +123,21 @@ private object Routes {
     const val HISTORY = "history"
     const val SETTINGS = "settings"
     const val PREMIUM = "premium"
+    const val GROUP = "group"
+    const val QUIZ = "quiz"
+    const val IDEAS = "ideas"
 }
 
 private data class Tab(val route: String, val label: StringResource, val icon: ImageVector, val selectedIcon: ImageVector)
 
 private val tabs = listOf(
     Tab(Routes.TEST, Res.string.nav_test, Icons.Rounded.FavoriteBorder, Icons.Rounded.Favorite),
+    Tab(Routes.GROUP, Res.string.nav_group, Icons.Outlined.Groups, Icons.Rounded.Groups),
+    Tab(Routes.QUIZ, Res.string.nav_quiz, Icons.Outlined.Quiz, Icons.Rounded.Quiz),
+    Tab(Routes.IDEAS, Res.string.nav_ideas, Icons.Outlined.Lightbulb, Icons.Rounded.Lightbulb),
     Tab(Routes.HISTORY, Res.string.nav_history, Icons.Rounded.History, Icons.Rounded.History),
-    Tab(Routes.SETTINGS, Res.string.nav_settings, Icons.Outlined.Settings, Icons.Rounded.Settings),
 )
+private val tabRoutes = tabs.map { it.route }.toSet()
 
 /**
  * Gemeinsamer Einstiegspunkt der Oberfläche für Android und iOS.
@@ -192,6 +213,10 @@ private fun AppContent(
     var rewardItem by remember { mutableStateOf<CatalogItem?>(null) }
     var shareResult by remember { mutableStateOf<ResultUi?>(null) }
     var detailId by rememberSaveable { mutableStateOf<Long?>(null) }
+    var pairDetail by remember { mutableStateOf<ResultUi?>(null) }
+    val openSettings: () -> Unit = { navController.navigate(Routes.SETTINGS) { launchSingleTop = true } }
+    val shareChooser = stringResource(Res.string.share_chooser)
+    fun shareText(text: String) = runCatching { container.share.shareText(text, shareChooser) }
     var bannerFailed by remember { mutableStateOf(false) }
 
     val effect = ResultEffect.byId(settings.effectId).let { if (entitlements.isUnlocked(it)) it else ResultEffect.CONFETTI }
@@ -221,7 +246,7 @@ private fun AppContent(
         }
     }
 
-    val showBottomBar = route != Routes.PREMIUM
+    val showBottomBar = route == null || route in tabRoutes
     val showBanner = entitlements.showAds && canRequestAds && sdkReady &&
         (route == Routes.TEST || route == Routes.HISTORY) && !isImeVisible()
 
@@ -298,6 +323,14 @@ private fun AppContent(
                         )
                     }
                     Spacer(Modifier.weight(1f))
+                    NavigationRailItem(
+                        selected = false,
+                        onClick = openSettings,
+                        icon = { Icon(Icons.Outlined.Settings, contentDescription = null) },
+                        label = { Text(stringResource(Res.string.nav_settings), maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis) },
+                        colors = NavigationRailItemDefaults.colors(indicatorColor = colors.primaryContainer),
+                        modifier = Modifier.padding(bottom = 12.dp),
+                    )
                 }
             }
             Column(Modifier.weight(1f).fillMaxHeight()) {
@@ -346,6 +379,68 @@ private fun AppContent(
                         onToggleFavorite = vm::toggleFavorite,
                         onShare = { shareResult = it },
                         onOpenPremium = { navController.navigate(Routes.PREMIUM) },
+                        onMode = vm::setMode,
+                        onSettings = if (useRail) null else openSettings,
+                    )
+                }
+                composable(Routes.GROUP) {
+                    val vm: GroupViewModel = viewModel { GroupViewModel() }
+                    val state by vm.state.collectAsStateWithLifecycle()
+                    GroupScreen(
+                        state = state,
+                        onSettings = if (useRail) null else openSettings,
+                        onName = vm::setName,
+                        onAdd = vm::add,
+                        onRemove = vm::remove,
+                        onMode = vm::setMode,
+                        onEvaluate = {
+                            if (vm.evaluate()) { haptics.confirm(); ads.onTestCompleted(entitlements.showAds) }
+                        },
+                        onEdit = { ads.maybeShowInterstitial(entitlements.showAds) { vm.edit() } },
+                        onOpenPair = { pairDetail = it },
+                        onShare = ::shareText,
+                    )
+                }
+                composable(Routes.QUIZ) {
+                    val vm: QuizViewModel = viewModel { QuizViewModel() }
+                    val state by vm.state.collectAsStateWithLifecycle()
+                    val pool = remember(state.pack) { Content.quiz(state.pack) }
+                    QuizScreen(
+                        state = state,
+                        entitlements = entitlements,
+                        effect = effect,
+                        onSettings = if (useRail) null else openSettings,
+                        onNameA = vm::setNameA,
+                        onNameB = vm::setNameB,
+                        onPack = vm::selectPack,
+                        onLocked = { lockedItem = it },
+                        onStart = { vm.start(if (entitlements.isUnlocked(state.pack)) pool else Content.quiz(QuizPack.BASIC)) },
+                        onAnswer = vm::answer,
+                        onReady = vm::ready,
+                        onGuess = vm::guess,
+                        onNext = {
+                            vm.next()
+                            if (vm.state.value.phase == QuizPhase.RESULT) ads.onTestCompleted(entitlements.showAds)
+                        },
+                        onPlayAgain = { ads.maybeShowInterstitial(entitlements.showAds) { vm.playAgain(pool) } },
+                        onChangeNames = vm::backToSetup,
+                        onShare = ::shareText,
+                    )
+                }
+                composable(Routes.IDEAS) {
+                    val vm: IdeasViewModel = viewModel { IdeasViewModel(container.settings) }
+                    val state by vm.state.collectAsStateWithLifecycle()
+                    IdeasScreen(
+                        state = state,
+                        entitlements = entitlements,
+                        onSettings = if (useRail) null else openSettings,
+                        onCategory = vm::selectCategory,
+                        onFavorites = vm::showFavorites,
+                        onLocked = { lockedItem = it },
+                        onNext = vm::next,
+                        onPrevious = vm::previous,
+                        onToggleFavorite = vm::toggleFavorite,
+                        onShare = ::shareText,
                     )
                 }
                 composable(Routes.HISTORY) {
@@ -378,6 +473,7 @@ private fun AppContent(
                                 restoreState = true
                             }
                         },
+                        onSettings = if (useRail) null else openSettings,
                     )
                     val detail = state.items.firstOrNull { it.id == detailId }
                     if (detail != null) {
@@ -411,6 +507,7 @@ private fun AppContent(
                             ads.resetConsentForDebug()
                             message(Res.string.settings_consent_reset_done)
                         },
+                        onBack = { navController.popBackStack() },
                     )
                 }
                 composable(Routes.PREMIUM) {
@@ -444,6 +541,15 @@ private fun AppContent(
     }
 
     // ------------------------------------------------------------------ Dialoge & Sheets
+
+    pairDetail?.let { result ->
+        ResultDetailSheet(
+            result = result,
+            onToggleFavorite = {},
+            onShare = { shareResult = result },
+            onDismiss = { pairDetail = null },
+        )
+    }
 
     shareResult?.let { result ->
         ShareSheet(

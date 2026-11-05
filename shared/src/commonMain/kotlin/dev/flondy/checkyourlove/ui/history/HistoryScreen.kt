@@ -29,6 +29,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DeleteOutline
 import androidx.compose.material.icons.rounded.DeleteSweep
+import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.material.icons.rounded.HistoryToggleOff
@@ -66,6 +67,7 @@ import dev.flondy.checkyourlove.resources.Res
 import dev.flondy.checkyourlove.resources.*
 import dev.flondy.checkyourlove.core.ResultRange
 import dev.flondy.checkyourlove.core.ResultTexts
+import dev.flondy.checkyourlove.core.TestMode
 import dev.flondy.checkyourlove.data.db.LoveResultEntity
 import dev.flondy.checkyourlove.ui.components.GradientButton
 import dev.flondy.checkyourlove.ui.components.drawHeart
@@ -83,6 +85,7 @@ fun HistoryScreen(
     onDelete: (LoveResultEntity) -> Unit,
     onClear: (keepFavorites: Boolean) -> Unit,
     onStartTest: () -> Unit,
+    onSettings: (() -> Unit)? = null,
 ) {
     val palette = LocalPalette.current
     val layout = LocalWindowLayout.current
@@ -112,6 +115,11 @@ fun HistoryScreen(
             if (state.items.isNotEmpty() || state.filter == HistoryFilter.FAVORITES) {
                 IconButton(onClick = { confirmClear = true }) {
                     Icon(Icons.Rounded.DeleteSweep, contentDescription = stringResource(Res.string.history_clear), tint = palette.onSurfaceVariant)
+                }
+            }
+            if (onSettings != null) {
+                IconButton(onClick = onSettings) {
+                    Icon(Icons.Rounded.Settings, contentDescription = stringResource(Res.string.settings_open), tint = palette.onSurfaceVariant)
                 }
             }
         }
@@ -265,8 +273,10 @@ private fun HistoryItem(
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                 )
+                val mode = TestMode.ofPairKey(item.pairKey)
                 Text(
-                    stringResource(ResultTexts.title(range)) + " · " + stringResource(Res.string.result_percent, item.percent),
+                    (if (mode == TestMode.FRIENDSHIP) stringResource(Res.string.mode_friendship) + " · " else "") +
+                        stringResource(ResultTexts.title(range, mode)) + " · " + stringResource(Res.string.result_percent, item.percent),
                     style = MaterialTheme.typography.bodyMedium,
                     color = palette.primary,
                     maxLines = 1,

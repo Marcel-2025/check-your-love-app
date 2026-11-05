@@ -41,6 +41,8 @@ abstract class LayoutFlow(private val prefix: String) {
         compose.onNodeWithText("Einstellungen").performClick()
         idle(1)
         shot("04_settings")
+        compose.onNodeWithContentDescription("Zurück").performClick()
+        idle(1)
         compose.onNodeWithText("Liebestest").performClick()
         idle(1)
         compose.onNodeWithContentDescription("Teilen").performClick()

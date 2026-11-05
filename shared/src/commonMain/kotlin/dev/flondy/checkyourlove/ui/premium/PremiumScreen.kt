@@ -33,6 +33,7 @@ import androidx.compose.material.icons.rounded.Block
 import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.HourglassTop
 import androidx.compose.material.icons.rounded.IosShare
+import androidx.compose.material.icons.rounded.Quiz
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material.icons.rounded.PlayCircle
 import androidx.compose.material.icons.rounded.Science
@@ -131,7 +132,8 @@ fun PremiumScreen(
                 Benefit(Icons.Rounded.Block, Res.string.premium_benefit_ads, Res.string.premium_benefit_ads_desc)
                 Benefit(Icons.Rounded.Palette, Res.string.premium_benefit_designs, Res.string.premium_benefit_designs_desc)
                 Benefit(Icons.Rounded.AutoAwesome, Res.string.premium_benefit_effects, Res.string.premium_benefit_effects_desc)
-                Benefit(Icons.Rounded.IosShare, Res.string.premium_benefit_share, Res.string.premium_benefit_share_desc, last = true)
+                Benefit(Icons.Rounded.IosShare, Res.string.premium_benefit_share, Res.string.premium_benefit_share_desc)
+                Benefit(Icons.Rounded.Quiz, Res.string.premium_benefit_content, Res.string.premium_benefit_content_desc, last = true)
             }
 
             Spacer(Modifier.height(18.dp))

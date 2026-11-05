@@ -9,6 +9,8 @@ enum class ItemKind(val labelRes: StringResource) {
     PALETTE(Res.string.reward_kind_palette),
     EFFECT(Res.string.reward_kind_effect),
     TEMPLATE(Res.string.reward_kind_template),
+    PACK(Res.string.reward_kind_pack),
+    CATEGORY(Res.string.reward_kind_category),
 }
 
 /** Gemeinsame Sicht auf Designs, Effekte und Vorlagen für Premium/Rewarded-Logik. */

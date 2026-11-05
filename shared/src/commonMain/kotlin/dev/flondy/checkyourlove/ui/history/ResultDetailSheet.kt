@@ -68,14 +68,14 @@ fun ResultDetailSheet(
             PercentRing(value = result.percent.toFloat(), target = result.percent, ringSize = 180.dp)
             Spacer(Modifier.height(12.dp))
             Text(
-                stringResource(ResultTexts.title(result.range)),
+                stringResource(ResultTexts.title(result.range, result.mode)),
                 style = MaterialTheme.typography.headlineSmall,
                 color = palette.primary,
                 textAlign = TextAlign.Center,
             )
             Spacer(Modifier.height(6.dp))
             Text(
-                stringResource(ResultTexts.text(result.range, result.variant)),
+                stringResource(ResultTexts.text(result.range, result.variant, result.mode)),
                 style = MaterialTheme.typography.bodyLarge,
                 color = palette.onBackground,
                 textAlign = TextAlign.Center,

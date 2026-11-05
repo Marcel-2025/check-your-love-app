@@ -29,4 +29,15 @@ class AndroidShareService(context: Context) : ShareService {
         if (activity != null) activity.startActivity(chooser)
         else appContext.startActivity(chooser.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
     }
+
+    override fun shareText(text: String, chooserTitle: String) {
+        val send = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, text)
+        }
+        val chooser = Intent.createChooser(send, chooserTitle)
+        val activity = CurrentActivity.get()
+        if (activity != null) activity.startActivity(chooser)
+        else appContext.startActivity(chooser.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+    }
 }

@@ -1,5 +1,7 @@
 package dev.flondy.checkyourlove.ui.test
 
+import dev.flondy.checkyourlove.core.TestMode
+
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -28,6 +30,7 @@ data class ResultUi(
     val range: ResultRange,
     val variant: Int,
     val favorite: Boolean,
+    val mode: TestMode = TestMode.LOVE,
 )
 
 data class LoveTestUiState(
@@ -37,6 +40,7 @@ data class LoveTestUiState(
     val errorB: NameError? = null,
     val phase: TestPhase = TestPhase.INPUT,
     val result: ResultUi? = null,
+    val mode: TestMode = TestMode.LOVE,
 ) {
     val canSwap: Boolean get() = phase == TestPhase.INPUT && (nameA.isNotEmpty() || nameB.isNotEmpty())
     val canReset: Boolean get() = phase != TestPhase.EVALUATING && (nameA.isNotEmpty() || nameB.isNotEmpty() || result != null)
@@ -61,6 +65,7 @@ class LoveTestViewModel(
         LoveTestUiState(
             nameA = savedState[KEY_A] ?: "",
             nameB = savedState[KEY_B] ?: "",
+            mode = TestMode.byId(savedState[KEY_MODE]),
         )
     )
     val state: StateFlow<LoveTestUiState> = _state.asStateFlow()
@@ -86,6 +91,13 @@ class LoveTestViewModel(
         savedState[if (isA) KEY_A else KEY_B] = limited
     }
 
+    /** Liebe oder Freundschaft; nur in der Eingabe umschaltbar. */
+    fun setMode(mode: TestMode) {
+        if (_state.value.phase != TestPhase.INPUT) return
+        _state.update { it.copy(mode = mode) }
+        savedState[KEY_MODE] = mode.id
+    }
+
     fun swap() {
         val s = _state.value
         if (s.phase == TestPhase.EVALUATING) return
@@ -96,7 +108,7 @@ class LoveTestViewModel(
 
     fun reset() {
         evaluationJob?.cancel()
-        _state.value = LoveTestUiState()
+        _state.value = LoveTestUiState(mode = _state.value.mode)
         savedState[KEY_A] = ""
         savedState[KEY_B] = ""
         savedState[KEY_SHOWING_RESULT] = false
@@ -122,7 +134,7 @@ class LoveTestViewModel(
             _state.update { it.copy(errorA = errorA, errorB = errorB) }
             return
         }
-        val calculation = LoveCalculator.calculate(s.nameA, s.nameB)
+        val calculation = LoveCalculator.calculate(s.nameA, s.nameB, s.mode)
         _state.update { it.copy(phase = TestPhase.EVALUATING, errorA = null, errorB = null) }
         evaluationJob = viewModelScope.launch {
             val saved = runCatching { history.save(s.nameA, s.nameB, calculation) }.getOrNull()
@@ -135,6 +147,7 @@ class LoveTestViewModel(
                 range = calculation.range,
                 variant = calculation.variant,
                 favorite = saved?.favorite ?: false,
+                mode = s.mode,
             )
             _state.update { it.copy(phase = TestPhase.RESULT, result = result) }
             savedState[KEY_SHOWING_RESULT] = true
@@ -158,14 +171,14 @@ class LoveTestViewModel(
     private fun restoreResult() {
         val s = _state.value
         if (LoveCalculator.validate(s.nameA) != null || LoveCalculator.validate(s.nameB) != null) return
-        val calculation = LoveCalculator.calculate(s.nameA, s.nameB)
+        val calculation = LoveCalculator.calculate(s.nameA, s.nameB, s.mode)
         val id = savedState.get<Long>(KEY_RESULT_ID)?.takeIf { it > 0 }
         _state.update {
             it.copy(
                 phase = TestPhase.RESULT,
                 result = ResultUi(
                     id, LoveCalculator.displayName(s.nameA), LoveCalculator.displayName(s.nameB),
-                    calculation.percent, calculation.range, calculation.variant, favorite = false,
+                    calculation.percent, calculation.range, calculation.variant, favorite = false, mode = s.mode,
                 ),
             )
         }
@@ -185,5 +198,6 @@ class LoveTestViewModel(
         private const val KEY_B = "name_b"
         private const val KEY_SHOWING_RESULT = "showing_result"
         private const val KEY_RESULT_ID = "result_id"
+        private const val KEY_MODE = "mode"
     }
 }

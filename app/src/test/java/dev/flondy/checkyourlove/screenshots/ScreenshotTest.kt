@@ -34,6 +34,14 @@ class ScreenshotTest {
     @get:Rule val compose = createAndroidComposeRule<MainActivity>()
     private val context: Context get() = ApplicationProvider.getApplicationContext()
 
+    /** Wartet (mit Uhr-Vorlauf), bis ein Text erscheint – robust auch bei voller Testlast. */
+    private fun waitForText(text: String, maxMs: Long = 6000) {
+        var waited = 0L
+        while (waited < maxMs && compose.onAllNodes(androidx.compose.ui.test.hasText(text, substring = true)).fetchSemanticsNodes().isEmpty()) {
+            idle(200); waited += 200
+        }
+    }
+
     private fun idle(ms: Long = 1000) {
         repeat((ms / 100).toInt()) {
             Thread.sleep(15)
@@ -59,8 +67,9 @@ class ScreenshotTest {
         shot("light_01_input_en")
         runTest("Lena", "Tom")
         shot("light_02_result_en")
-        compose.onNodeWithText(str(Res.string.nav_settings)).performClick(); idle()
+        compose.onNodeWithContentDescription(str(Res.string.settings_open)).performClick(); idle()
         shot("light_03_settings_en")
+        compose.onNodeWithContentDescription(str(Res.string.nav_back)).performClick(); idle()
         compose.onNodeWithText(str(Res.string.nav_history)).performClick(); idle()
         shot("light_04_history_en")
     }
@@ -93,7 +102,7 @@ class ScreenshotTest {
     @Test @Config(qualifiers = "de-w411dp-h891dp-night-xxhdpi")
     fun lockedItemDialogAndSimulatedPurchase() {
         idle()
-        compose.onNodeWithText(str(Res.string.nav_settings)).performClick(); idle()
+        compose.onNodeWithContentDescription(str(Res.string.settings_open)).performClick(); idle()
         compose.onNodeWithText(str(Res.string.effect_heart_rain)).performScrollTo().performClick(); idle()
         captureScreenRoboImage("build/screenshots/locked_dialog.png")
         compose.onNodeWithText(str(Res.string.locked_go_premium)).performClick(); idle()
@@ -105,11 +114,13 @@ class ScreenshotTest {
         // Simulation: ausstehend -> kein Premium, Hinweis sichtbar
         compose.onNodeWithText(str(Res.string.sim_pending)).performScrollTo().performClick()
         compose.onNodeWithText(str(Res.string.premium_buy, str(Res.string.sim_price))).performScrollTo().performClick(); idle(1500)
+        waitForText(str(Res.string.premium_pending))
         compose.onNodeWithText(str(Res.string.premium_pending)).assertExists()
         shot("premium_03_pending")
         idle(5000)
         // Ausstehenden Kauf abschließen -> Premium aktiv
         compose.onNodeWithText(str(Res.string.sim_complete_pending)).performScrollTo().performClick(); idle(500)
+        waitForText(str(Res.string.premium_owned))
         compose.onNodeWithText(str(Res.string.premium_owned)).performScrollTo().assertExists()
         shot("premium_04_owned")
         idle(5000)
@@ -126,7 +137,7 @@ class ScreenshotTest {
     @Test @Config(qualifiers = "de-w411dp-h891dp-night-xxhdpi")
     fun rewardDialogExplainsReward() {
         idle()
-        compose.onNodeWithText(str(Res.string.nav_settings)).performClick(); idle()
+        compose.onNodeWithContentDescription(str(Res.string.settings_open)).performClick(); idle()
         compose.onNodeWithText(str(Res.string.effect_sparkle)).performScrollTo().performClick(); idle()
         compose.onNodeWithText(str(Res.string.locked_watch_video)).performClick(); idle(1500)
         compose.onNodeWithText(str(Res.string.reward_dialog_text, str(Res.string.effect_sparkle))).assertExists()

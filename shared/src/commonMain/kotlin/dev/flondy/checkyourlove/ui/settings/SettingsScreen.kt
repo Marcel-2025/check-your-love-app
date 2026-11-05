@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -106,6 +107,7 @@ fun SettingsScreen(
     onRestore: () -> Unit,
     onPrivacyOptions: () -> Unit,
     onResetConsent: () -> Unit,
+    onBack: (() -> Unit)? = null,
 ) {
     val palette = LocalPalette.current
     val uriHandler = LocalUriHandler.current
@@ -125,12 +127,22 @@ fun SettingsScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Column(Modifier.widthIn(max = LocalWindowLayout.current.contentMaxWidth)) {
-            Text(
-                stringResource(Res.string.settings_title),
-                style = MaterialTheme.typography.headlineMedium,
-                color = palette.onBackground,
-                modifier = Modifier.padding(top = 12.dp, bottom = 8.dp).semantics { heading() },
-            )
+            androidx.compose.foundation.layout.Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 8.dp)) {
+                if (onBack != null) {
+                    dev.flondy.checkyourlove.ui.components.SoftIconButton(
+                        androidx.compose.material.icons.Icons.AutoMirrored.Rounded.ArrowBack,
+                        stringResource(Res.string.nav_back),
+                        onBack,
+                    )
+                    Spacer(Modifier.size(12.dp))
+                }
+                Text(
+                    stringResource(Res.string.settings_title),
+                    style = MaterialTheme.typography.headlineMedium,
+                    color = palette.onBackground,
+                    modifier = Modifier.padding(top = 4.dp, bottom = 8.dp).semantics { heading() },
+                )
+            }
 
             // ---------------------------------------------------------- Erscheinungsbild
             SectionLabel(stringResource(Res.string.settings_section_appearance))

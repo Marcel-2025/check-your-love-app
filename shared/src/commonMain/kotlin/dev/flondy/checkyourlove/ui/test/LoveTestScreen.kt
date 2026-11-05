@@ -91,6 +91,9 @@ import dev.flondy.checkyourlove.ui.theme.LocalHaptics
 import dev.flondy.checkyourlove.ui.theme.LocalMotion
 import dev.flondy.checkyourlove.ui.theme.LocalPalette
 import dev.flondy.checkyourlove.ui.theme.LocalWindowLayout
+import dev.flondy.checkyourlove.core.TestMode
+import dev.flondy.checkyourlove.ui.components.ModeToggle
+import androidx.compose.material.icons.rounded.Settings
 import dev.flondy.checkyourlove.ui.theme.WindowLayout
 import androidx.compose.foundation.layout.BoxWithConstraints
 
@@ -109,6 +112,8 @@ fun LoveTestScreen(
     onToggleFavorite: () -> Unit,
     onShare: (ResultUi) -> Unit,
     onOpenPremium: () -> Unit,
+    onMode: (TestMode) -> Unit = {},
+    onSettings: (() -> Unit)? = null,
 ) {
     val palette = LocalPalette.current
     val motion = LocalMotion.current
@@ -127,7 +132,7 @@ fun LoveTestScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = if (centered) Arrangement.SpaceBetween else Arrangement.Top,
         ) {
-            TopRow(showPremiumEntry = showPremiumEntry, maxWidth = layout.testMaxWidth, onOpenPremium = onOpenPremium)
+            TopRow(showPremiumEntry = showPremiumEntry, maxWidth = layout.testMaxWidth, onOpenPremium = onOpenPremium, onSettings = onSettings)
             AnimatedContent(
                 targetState = state.phase == TestPhase.RESULT,
                 transitionSpec = {
@@ -149,6 +154,7 @@ fun LoveTestScreen(
                     InputContent(
                         state = state,
                         layout = layout,
+                        onMode = onMode,
                         onNameA = onNameA,
                         onNameB = onNameB,
                         onSwap = onSwap,
@@ -182,7 +188,7 @@ fun LoveTestScreen(
 }
 
 @Composable
-private fun TopRow(showPremiumEntry: Boolean, maxWidth: androidx.compose.ui.unit.Dp, onOpenPremium: () -> Unit) {
+private fun TopRow(showPremiumEntry: Boolean, maxWidth: androidx.compose.ui.unit.Dp, onOpenPremium: () -> Unit, onSettings: (() -> Unit)?) {
     val palette = LocalPalette.current
     Row(
         Modifier
@@ -205,6 +211,15 @@ private fun TopRow(showPremiumEntry: Boolean, maxWidth: androidx.compose.ui.unit
                 tint = palette.primary,
             )
         }
+        if (onSettings != null) {
+            Spacer(Modifier.size(8.dp))
+            SoftIconButton(
+                icon = Icons.Rounded.Settings,
+                contentDescription = stringResource(Res.string.settings_open),
+                onClick = onSettings,
+                tint = palette.onSurfaceVariant,
+            )
+        }
     }
 }
 
@@ -212,6 +227,7 @@ private fun TopRow(showPremiumEntry: Boolean, maxWidth: androidx.compose.ui.unit
 private fun InputContent(
     state: LoveTestUiState,
     layout: WindowLayout,
+    onMode: (TestMode) -> Unit,
     onNameA: (String) -> Unit,
     onNameB: (String) -> Unit,
     onSwap: () -> Unit,
@@ -233,8 +249,9 @@ private fun InputContent(
     }
 
     val header: @Composable () -> Unit = {
+        val friend = state.mode == TestMode.FRIENDSHIP
         Text(
-            stringResource(Res.string.test_headline),
+            stringResource(if (friend) Res.string.test_headline_friend else Res.string.test_headline),
             style = MaterialTheme.typography.headlineMedium,
             color = palette.onBackground,
             textAlign = TextAlign.Center,
@@ -243,12 +260,14 @@ private fun InputContent(
         if (!layout.isShort) {
             Spacer(Modifier.height(6.dp))
             Text(
-                stringResource(Res.string.test_subtitle),
+                stringResource(if (friend) Res.string.test_subtitle_friend else Res.string.test_subtitle),
                 style = MaterialTheme.typography.bodyLarge,
                 color = palette.onSurfaceVariant,
                 textAlign = TextAlign.Center,
             )
         }
+        Spacer(Modifier.height(if (layout.isShort) 8.dp else 14.dp))
+        ModeToggle(state.mode, enabled = !evaluating, onMode = { haptics.tick(); onMode(it) })
     }
     val nameCard: @Composable () -> Unit = {
         SectionCard(contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 18.dp, bottom = 8.dp)) {
@@ -288,7 +307,7 @@ private fun InputContent(
             NameField(
                 value = state.nameB,
                 onValueChange = onNameB,
-                label = stringResource(Res.string.field_name_b),
+                label = stringResource(if (state.mode == TestMode.FRIENDSHIP) Res.string.field_name_b_friend else Res.string.field_name_b),
                 placeholder = stringResource(Res.string.field_name_b_placeholder),
                 leadingIcon = Icons.Rounded.FavoriteBorder,
                 errorText = state.errorB?.let { errorText(it) },
@@ -375,8 +394,8 @@ private fun ResultContent(
         }
         revealText.animateTo(1f, tween(if (motion.reduced) 0 else 450))
     }
-    val title = stringResource(ResultTexts.title(result.range))
-    val text = stringResource(ResultTexts.text(result.range, result.variant))
+    val title = stringResource(ResultTexts.title(result.range, result.mode))
+    val text = stringResource(ResultTexts.text(result.range, result.variant, result.mode))
     val a11y = stringResource(Res.string.result_a11y, result.nameA, result.nameB, result.percent, title)
 
     val pairAndRing: @Composable () -> Unit = {

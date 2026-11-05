@@ -22,6 +22,9 @@ data class AppConfig(
 /** Teilen eines Bildes über den System-Dialog. */
 interface ShareService {
     fun shareImage(png: ByteArray, text: String, chooserTitle: String)
+
+    /** Reinen Text teilen (Ideen, Sprüche, Quiz-Ergebnis). */
+    fun shareText(text: String, chooserTitle: String) {}
 }
 
 /** Verankertes Banner der jeweiligen Plattform (AdMob). [onFailed] blendet den Platz aus. */

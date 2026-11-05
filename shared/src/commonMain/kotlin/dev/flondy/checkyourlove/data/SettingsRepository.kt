@@ -54,6 +54,7 @@ class SettingsRepository(private val store: DataStore<Preferences>) {
         val lastInterstitial = longPreferencesKey("last_interstitial_at")
         val testsSinceInterstitial = intPreferencesKey("tests_since_interstitial")
         val simulatedOwnership = stringPreferencesKey("simulated_ownership")
+        val ideaFavorites = stringSetPreferencesKey("idea_favorites")
     }
 
     private val prefs: Flow<Preferences> = store.data.catch { e ->
@@ -98,6 +99,14 @@ class SettingsRepository(private val store: DataStore<Preferences>) {
     suspend fun markInterstitialShown(now: Long) = store.edit {
         it[Keys.lastInterstitial] = now
         it[Keys.testsSinceInterstitial] = 0
+    }
+
+    /** Gemerkte Ideen (nur Kennungen wie „flirt:3“, keine Inhalte des Nutzers). */
+    val ideaFavorites: Flow<Set<String>> = prefs.map { it[Keys.ideaFavorites].orEmpty() }
+
+    suspend fun toggleIdeaFavorite(id: String) = store.edit { p ->
+        val current = p[Keys.ideaFavorites].orEmpty()
+        p[Keys.ideaFavorites] = if (id in current) current - id else current + id
     }
 
     suspend fun simulatedOwnership(): String? = prefs.first()[Keys.simulatedOwnership]

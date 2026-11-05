@@ -43,7 +43,7 @@ class AppFlowTest {
         idle(1)
         compose.onNodeWithText("Anna & Ben").assertIsDisplayed()
         compose.onRoot().captureRoboImage("build/screenshots/flow_05_history.png")
-        compose.onNodeWithText("Einstellungen").performClick()
+        compose.onNodeWithContentDescription("Einstellungen").performClick()
         idle(1)
         compose.onRoot().captureRoboImage("build/screenshots/flow_06_settings.png")
     }

@@ -3,6 +3,18 @@ package dev.flondy.checkyourlove.core
 import dev.flondy.checkyourlove.platform.isLetterCodePoint
 import dev.flondy.checkyourlove.platform.normalizeNfkc
 
+/** Art des Tests: gleiche Logik, aber eigener Schlüssel und eigene Texte. */
+enum class TestMode(val id: String) {
+    LOVE("love"), FRIENDSHIP("friend");
+
+    companion object {
+        /** Gespeicherte Freundschafts-Ergebnisse haben einen Präfix im Paarschlüssel. */
+        const val FRIEND_PREFIX = "friend|"
+        fun ofPairKey(pairKey: String): TestMode = if (pairKey.startsWith(FRIEND_PREFIX)) FRIENDSHIP else LOVE
+        fun byId(id: String?): TestMode = entries.firstOrNull { it.id == id } ?: LOVE
+    }
+}
+
 /** Mögliche Eingabefehler eines Namensfeldes. */
 enum class NameError { EMPTY, NO_LETTER, TOO_LONG }
 
@@ -31,6 +43,7 @@ object LoveCalculator {
     const val MAX_NAME_LENGTH = 40
 
     private const val SALT = "CheckYourLove/v2"
+    private const val FRIEND_SALT = "CheckYourLove/friend/v1"
     private const val SEPARATOR = '\u001F'
     private val invisible = Regex("[\\u200B-\\u200D\\u2060\\uFEFF\\u00AD]")
     private val whitespace = Regex("\\s+")
@@ -98,13 +111,19 @@ object LoveCalculator {
         return "$first$SEPARATOR$second"
     }
 
-    fun calculate(a: String, b: String): LoveCalculation {
+    /**
+     * Liebe: unverändert zu Version 2 (gleiche Ergebnisse wie bisher).
+     * Freundschaft: eigener Salt, damit Freundschafts- und Liebeswert unabhängig sind.
+     */
+    fun calculate(a: String, b: String, mode: TestMode = TestMode.LOVE): LoveCalculation {
         val key = pairKey(a, b)
-        val digest = Sha256.digest("$SALT$SEPARATOR$key".encodeToByteArray())
+        val salt = if (mode == TestMode.FRIENDSHIP) FRIEND_SALT else SALT
+        val digest = Sha256.digest("$salt$SEPARATOR$key".encodeToByteArray())
         val value = digest.toULong(0)
         val percent = (value % 101uL).toInt()
         val variant = (digest.toULong(8) % ResultRange.VARIANTS.toULong()).toInt()
-        return LoveCalculation(key, percent, ResultRange.of(percent), variant)
+        val storedKey = if (mode == TestMode.FRIENDSHIP) TestMode.FRIEND_PREFIX + key else key
+        return LoveCalculation(storedKey, percent, ResultRange.of(percent), variant)
     }
 
     private fun ByteArray.toULong(offset: Int): ULong {

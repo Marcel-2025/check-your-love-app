@@ -30,6 +30,13 @@ internal class IosShareService : ShareService {
         presenter.presentViewController(controller, animated = true, completion = null)
     }
 
+    override fun shareText(text: String, chooserTitle: String) {
+        val controller = UIActivityViewController(activityItems = listOf(text), applicationActivities = null)
+        val presenter = topViewController() ?: return
+        controller.popoverPresentationController?.sourceView = presenter.view
+        presenter.presentViewController(controller, animated = true, completion = null)
+    }
+
     private fun topViewController(): UIViewController? {
         val window = UIApplication.sharedApplication.connectedScenes
             .filterIsInstance<UIWindowScene>()

@@ -1,5 +1,7 @@
 package dev.flondy.checkyourlove.ui.history
 
+import dev.flondy.checkyourlove.core.TestMode
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.flondy.checkyourlove.core.ResultRange
@@ -27,6 +29,7 @@ data class HistoryUiState(
 fun LoveResultEntity.toResultUi() = ResultUi(
     id = id, nameA = nameA, nameB = nameB, percent = percent,
     range = ResultRange.of(percent), variant = variant, favorite = favorite,
+    mode = TestMode.ofPairKey(pairKey),
 )
 
 @OptIn(ExperimentalCoroutinesApi::class)
