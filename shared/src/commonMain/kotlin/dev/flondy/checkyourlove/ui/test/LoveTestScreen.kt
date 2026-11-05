@@ -90,6 +90,9 @@ import dev.flondy.checkyourlove.ui.components.SoftIconButton
 import dev.flondy.checkyourlove.ui.theme.LocalHaptics
 import dev.flondy.checkyourlove.ui.theme.LocalMotion
 import dev.flondy.checkyourlove.ui.theme.LocalPalette
+import dev.flondy.checkyourlove.ui.theme.LocalWindowLayout
+import dev.flondy.checkyourlove.ui.theme.WindowLayout
+import androidx.compose.foundation.layout.BoxWithConstraints
 
 @Composable
 fun LoveTestScreen(
@@ -109,16 +112,22 @@ fun LoveTestScreen(
 ) {
     val palette = LocalPalette.current
     val motion = LocalMotion.current
-    Box(Modifier.fillMaxSize()) {
+    val layout = LocalWindowLayout.current
+    // Tablet/Querformat: Inhalt vertikal mittig, Hinweis unten; Handy hochkant: wie bisher von oben.
+    val centered = layout.sideBySide || layout.isTablet
+    BoxWithConstraints(Modifier.fillMaxSize()) {
+        val viewportHeight = maxHeight
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
+                .heightIn(min = viewportHeight)
                 .padding(contentPadding)
-                .padding(horizontal = 20.dp),
+                .padding(horizontal = if (layout.sideBySide) 32.dp else 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = if (centered) Arrangement.SpaceBetween else Arrangement.Top,
         ) {
-            TopRow(showPremiumEntry = showPremiumEntry, onOpenPremium = onOpenPremium)
+            TopRow(showPremiumEntry = showPremiumEntry, maxWidth = layout.testMaxWidth, onOpenPremium = onOpenPremium)
             AnimatedContent(
                 targetState = state.phase == TestPhase.RESULT,
                 transitionSpec = {
@@ -126,11 +135,12 @@ fun LoveTestScreen(
                     else (fadeIn(tween(380, delayMillis = 90)) + scaleIn(tween(420), initialScale = 0.94f)) togetherWith fadeOut(tween(200))
                 },
                 label = "phase",
-                modifier = Modifier.widthIn(max = 560.dp),
+                modifier = Modifier.widthIn(max = layout.testMaxWidth),
             ) { showResult ->
                 if (showResult && state.result != null) {
                     ResultContent(
                         result = state.result,
+                        layout = layout,
                         onNewTest = onNewTest,
                         onToggleFavorite = onToggleFavorite,
                         onShare = { onShare(state.result) },
@@ -138,6 +148,7 @@ fun LoveTestScreen(
                 } else {
                     InputContent(
                         state = state,
+                        layout = layout,
                         onNameA = onNameA,
                         onNameB = onNameB,
                         onSwap = onSwap,
@@ -146,15 +157,17 @@ fun LoveTestScreen(
                     )
                 }
             }
-            Spacer(Modifier.height(20.dp))
-            Text(
-                stringResource(Res.string.entertainment_note),
-                style = MaterialTheme.typography.bodySmall,
-                color = palette.onSurfaceVariant,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.widthIn(max = 420.dp).padding(horizontal = 16.dp),
-            )
-            Spacer(Modifier.height(24.dp))
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Spacer(Modifier.height(if (layout.isShort) 12.dp else 20.dp))
+                Text(
+                    stringResource(Res.string.entertainment_note),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = palette.onSurfaceVariant,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.widthIn(max = if (layout.sideBySide) 640.dp else 420.dp).padding(horizontal = 16.dp),
+                )
+                Spacer(Modifier.height(if (layout.isShort) 12.dp else 24.dp))
+            }
         }
         val result = state.result
         if (state.phase == TestPhase.RESULT && result != null && result.range.isHigh && !motion.reduced) {
@@ -169,12 +182,12 @@ fun LoveTestScreen(
 }
 
 @Composable
-private fun TopRow(showPremiumEntry: Boolean, onOpenPremium: () -> Unit) {
+private fun TopRow(showPremiumEntry: Boolean, maxWidth: androidx.compose.ui.unit.Dp, onOpenPremium: () -> Unit) {
     val palette = LocalPalette.current
     Row(
         Modifier
+            .widthIn(max = maxWidth)
             .fillMaxWidth()
-            .widthIn(max = 560.dp)
             .padding(top = 12.dp, bottom = 4.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -198,6 +211,7 @@ private fun TopRow(showPremiumEntry: Boolean, onOpenPremium: () -> Unit) {
 @Composable
 private fun InputContent(
     state: LoveTestUiState,
+    layout: WindowLayout,
     onNameA: (String) -> Unit,
     onNameB: (String) -> Unit,
     onSwap: () -> Unit,
@@ -218,8 +232,7 @@ private fun InputContent(
         onEvaluate()
     }
 
-    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
-        Spacer(Modifier.height(12.dp))
+    val header: @Composable () -> Unit = {
         Text(
             stringResource(Res.string.test_headline),
             style = MaterialTheme.typography.headlineMedium,
@@ -227,14 +240,17 @@ private fun InputContent(
             textAlign = TextAlign.Center,
             modifier = Modifier.semantics { heading() },
         )
-        Spacer(Modifier.height(6.dp))
-        Text(
-            stringResource(Res.string.test_subtitle),
-            style = MaterialTheme.typography.bodyLarge,
-            color = palette.onSurfaceVariant,
-            textAlign = TextAlign.Center,
-        )
-        Spacer(Modifier.height(20.dp))
+        if (!layout.isShort) {
+            Spacer(Modifier.height(6.dp))
+            Text(
+                stringResource(Res.string.test_subtitle),
+                style = MaterialTheme.typography.bodyLarge,
+                color = palette.onSurfaceVariant,
+                textAlign = TextAlign.Center,
+            )
+        }
+    }
+    val nameCard: @Composable () -> Unit = {
         SectionCard(contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 18.dp, bottom = 8.dp)) {
             NameField(
                 value = state.nameA,
@@ -283,10 +299,11 @@ private fun InputContent(
                 modifier = Modifier.focusRequester(secondFocus),
             )
         }
-        Spacer(Modifier.height(20.dp))
+    }
+    val heart: @Composable () -> Unit = {
         val checkLabel = stringResource(Res.string.action_check)
         HeartButton(
-            size = 196.dp,
+            size = layout.heartSize,
             pulsing = evaluating,
             enabled = !evaluating,
             contentDescription = if (evaluating) stringResource(Res.string.evaluating_a11y) else checkLabel,
@@ -306,14 +323,43 @@ private fun InputContent(
             if (evaluating) stringResource(Res.string.evaluating) else stringResource(Res.string.action_check_hint),
             style = MaterialTheme.typography.bodyMedium,
             color = palette.onSurfaceVariant,
+            textAlign = TextAlign.Center,
             modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite },
         )
+    }
+
+    if (layout.sideBySide) {
+        // Querformat: Eingabe links, Herz rechts – ein Screen, nur nebeneinander angeordnet.
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(40.dp),
+        ) {
+            Column(Modifier.weight(1.15f), horizontalAlignment = Alignment.CenterHorizontally) {
+                header()
+                Spacer(Modifier.height(if (layout.isShort) 12.dp else 20.dp))
+                nameCard()
+            }
+            Column(Modifier.weight(0.85f), horizontalAlignment = Alignment.CenterHorizontally) {
+                heart()
+            }
+        }
+    } else {
+        Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
+            Spacer(Modifier.height(12.dp))
+            header()
+            Spacer(Modifier.height(20.dp))
+            nameCard()
+            Spacer(Modifier.height(if (layout.isTablet) 28.dp else 20.dp))
+            heart()
+        }
     }
 }
 
 @Composable
 private fun ResultContent(
     result: ResultUi,
+    layout: WindowLayout,
     onNewTest: () -> Unit,
     onToggleFavorite: () -> Unit,
     onShare: () -> Unit,
@@ -333,50 +379,41 @@ private fun ResultContent(
     val text = stringResource(ResultTexts.text(result.range, result.variant))
     val a11y = stringResource(Res.string.result_a11y, result.nameA, result.nameB, result.percent, title)
 
-    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
-        Spacer(Modifier.height(16.dp))
+    val pairAndRing: @Composable () -> Unit = {
+        Text(
+            stringResource(Res.string.result_pair, result.nameA, result.nameB),
+            style = MaterialTheme.typography.titleLarge,
+            color = palette.onBackground,
+            textAlign = TextAlign.Center,
+            maxLines = 3,
+            overflow = TextOverflow.Ellipsis,
+        )
+        Spacer(Modifier.height(18.dp))
+        PercentRing(value = counter.value, target = result.percent, ringSize = layout.ringSize)
+    }
+    val texts: @Composable (Modifier) -> Unit = { mod ->
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxWidth()
-                .clearAndSetSemantics {
-                    contentDescription = a11y
-                    liveRegion = LiveRegionMode.Polite
-                },
+            modifier = mod
+                .graphicsAlpha(revealText.value)
+                .padding(horizontal = 8.dp),
         ) {
             Text(
-                stringResource(Res.string.result_pair, result.nameA, result.nameB),
-                style = MaterialTheme.typography.titleLarge,
+                title,
+                style = MaterialTheme.typography.headlineMedium.copy(lineBreak = LineBreak.Heading, hyphens = Hyphens.Auto),
+                color = palette.primary,
+                textAlign = TextAlign.Center,
+            )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                text,
+                style = MaterialTheme.typography.bodyLarge,
                 color = palette.onBackground,
                 textAlign = TextAlign.Center,
-                maxLines = 3,
-                overflow = TextOverflow.Ellipsis,
             )
-            Spacer(Modifier.height(18.dp))
-            PercentRing(value = counter.value, target = result.percent)
-            Spacer(Modifier.height(18.dp))
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .graphicsAlpha(revealText.value)
-                    .padding(horizontal = 8.dp),
-            ) {
-                Text(
-                    title,
-                    style = MaterialTheme.typography.headlineMedium.copy(lineBreak = LineBreak.Heading, hyphens = Hyphens.Auto),
-                    color = palette.primary,
-                    textAlign = TextAlign.Center,
-                )
-                Spacer(Modifier.height(8.dp))
-                Text(
-                    text,
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = palette.onBackground,
-                    textAlign = TextAlign.Center,
-                )
-            }
         }
-        Spacer(Modifier.height(24.dp))
+    }
+    val actions: @Composable () -> Unit = {
         Row(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
@@ -401,8 +438,45 @@ private fun ResultContent(
             text = stringResource(Res.string.action_new_test),
             onClick = { haptics.tick(); onNewTest() },
             leadingIcon = Icons.Rounded.Replay,
-            modifier = Modifier.fillMaxWidth(0.8f).heightIn(min = 56.dp),
+            modifier = Modifier.fillMaxWidth(0.8f).widthIn(max = 420.dp).heightIn(min = 56.dp),
         )
+    }
+    val groupSemantics = Modifier.clearAndSetSemantics {
+        contentDescription = a11y
+        liveRegion = LiveRegionMode.Polite
+    }
+
+    if (layout.sideBySide) {
+        // Querformat: Ring links, Text und Aktionen rechts.
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(40.dp),
+        ) {
+            Column(Modifier.weight(1f).then(groupSemantics), horizontalAlignment = Alignment.CenterHorizontally) {
+                pairAndRing()
+            }
+            Column(Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
+                // Der Text steckt schon in der Ring-Beschreibung – hier nicht doppelt vorlesen.
+                texts(Modifier.clearAndSetSemantics { })
+                Spacer(Modifier.height(24.dp))
+                actions()
+            }
+        }
+    } else {
+        Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
+            Spacer(Modifier.height(16.dp))
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxWidth().then(groupSemantics),
+            ) {
+                pairAndRing()
+                Spacer(Modifier.height(18.dp))
+                texts(Modifier)
+            }
+            Spacer(Modifier.height(24.dp))
+            actions()
+        }
     }
 }
 

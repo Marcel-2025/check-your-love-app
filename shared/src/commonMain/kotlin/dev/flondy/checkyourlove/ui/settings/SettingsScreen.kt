@@ -83,6 +83,7 @@ import dev.flondy.checkyourlove.ui.components.drawHeart
 import dev.flondy.checkyourlove.ui.theme.AppPalette
 import dev.flondy.checkyourlove.ui.theme.LocalHaptics
 import dev.flondy.checkyourlove.ui.theme.LocalPalette
+import dev.flondy.checkyourlove.ui.theme.LocalWindowLayout
 import dev.flondy.checkyourlove.platform.formatShortDateTime
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -123,7 +124,7 @@ fun SettingsScreen(
             .padding(horizontal = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Column(Modifier.widthIn(max = 640.dp)) {
+        Column(Modifier.widthIn(max = LocalWindowLayout.current.contentMaxWidth)) {
             Text(
                 stringResource(Res.string.settings_title),
                 style = MaterialTheme.typography.headlineMedium,

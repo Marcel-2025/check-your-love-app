@@ -74,6 +74,7 @@ import dev.flondy.checkyourlove.ui.components.SoftIconButton
 import dev.flondy.checkyourlove.ui.components.drawHeart
 import dev.flondy.checkyourlove.ui.theme.AppPalette
 import dev.flondy.checkyourlove.ui.theme.LocalPalette
+import dev.flondy.checkyourlove.ui.theme.LocalWindowLayout
 import dev.flondy.checkyourlove.platform.formatShortDateTime
 
 /** Steuerung der Debug-Simulation (null in echten Builds). */
@@ -108,10 +109,10 @@ fun PremiumScreen(
             .padding(horizontal = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Row(Modifier.fillMaxWidth().widthIn(max = 640.dp).padding(top = 8.dp)) {
+        Row(Modifier.fillMaxWidth().widthIn(max = LocalWindowLayout.current.contentMaxWidth).padding(top = 8.dp)) {
             SoftIconButton(Icons.AutoMirrored.Rounded.ArrowBack, stringResource(Res.string.nav_back), onBack)
         }
-        Column(Modifier.widthIn(max = 640.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(Modifier.widthIn(max = LocalWindowLayout.current.contentMaxWidth), horizontalAlignment = Alignment.CenterHorizontally) {
             HeartButton(size = 140.dp, pulsing = false, enabled = false, contentDescription = "", onClick = {}) {
                 Icon(Icons.Rounded.AutoAwesome, contentDescription = null, tint = androidx.compose.ui.graphics.Color.White, modifier = Modifier.padding(bottom = 10.dp).size(34.dp))
             }

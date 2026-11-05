@@ -29,6 +29,10 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.BottomSheetDefaults
+import androidx.compose.foundation.layout.Row
+import androidx.compose.ui.unit.coerceIn
+import dev.flondy.checkyourlove.ui.theme.LocalWindowLayout
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -110,20 +114,13 @@ fun ShareSheet(
     val chooserTitle = stringResource(Res.string.share_chooser)
     val shareText = stringResource(Res.string.share_text, result.nameA, result.nameB, result.percent)
 
-    ModalBottomSheet(onDismissRequest = onDismiss, sheetState = sheetState, containerColor = palette.surface) {
-        Column(
-            Modifier
-                .fillMaxWidth()
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 20.dp)
-                .navigationBarsPadding(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Text(stringResource(Res.string.share_title), style = MaterialTheme.typography.headlineSmall, color = palette.onBackground)
-            Spacer(Modifier.height(16.dp))
+    val layout = LocalWindowLayout.current
+    val wide = layout.sideBySide
+    val previewSize = if (wide) Modifier.width((layout.height * 0.42f).coerceIn(200.dp, 340.dp)) else Modifier.fillMaxWidth(if (layout.isTablet) 0.5f else 0.62f)
+    val preview: @Composable () -> Unit = {
             Box(
                 Modifier
-                    .fillMaxWidth(0.62f)
+                    .then(previewSize)
                     .aspectRatio(4f / 5f)
                     .clip(RoundedCornerShape(20.dp))
                     .background(palette.surfaceHigh),
@@ -136,7 +133,8 @@ fun ShareSheet(
                     CircularProgressIndicator(color = palette.primary)
                 }
             }
-            Spacer(Modifier.height(18.dp))
+    }
+    val controls: @Composable () -> Unit = {
             Text(
                 stringResource(Res.string.share_template),
                 style = MaterialTheme.typography.titleSmall,
@@ -203,8 +201,38 @@ fun ShareSheet(
                     }
                 },
             )
+    }
+
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = sheetState,
+        containerColor = palette.surface,
+        sheetMaxWidth = if (wide) 880.dp else BottomSheetDefaults.SheetMaxWidth,
+    ) {
+        Column(
+            Modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = if (wide) 28.dp else 20.dp)
+                .navigationBarsPadding(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text(stringResource(Res.string.share_title), style = MaterialTheme.typography.headlineSmall, color = palette.onBackground)
+            Spacer(Modifier.height(16.dp))
+            if (wide) {
+                // Querformat: Vorschau links, Auswahl und Teilen rechts.
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(28.dp)) {
+                    preview()
+                    Column(Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) { controls() }
+                }
+            } else {
+                preview()
+                Spacer(Modifier.height(18.dp))
+                controls()
+            }
             Spacer(Modifier.height(20.dp))
         }
     }
 }
+
 

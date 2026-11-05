@@ -60,8 +60,8 @@ android {
                 "String", "AD_REWARDED_ID",
                 (if (rewardedIsInterstitial) testRewardedInterstitialId else testRewardedId).asBuildConfigString(),
             )
-            // Simulierte Käufe nur im Debug-Build und nur, solange keine echte Produkt-ID gesetzt ist
-            buildConfigField("boolean", "ALLOW_SIMULATED_BILLING", "true")
+            // Simulierte Käufe nur im Debug-Build; echte Play-Käufe im Debug mit -Pcyl.debugRealBilling=true
+            buildConfigField("boolean", "ALLOW_SIMULATED_BILLING", (cfg("cyl.debugRealBilling") != "true").toString())
         }
         release {
             isMinifyEnabled = true

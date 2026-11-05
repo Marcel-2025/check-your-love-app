@@ -20,6 +20,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items as gridItems
+import androidx.compose.foundation.layout.wrapContentWidth
+import dev.flondy.checkyourlove.ui.theme.LocalWindowLayout
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DeleteOutline
@@ -80,6 +85,9 @@ fun HistoryScreen(
     onStartTest: () -> Unit,
 ) {
     val palette = LocalPalette.current
+    val layout = LocalWindowLayout.current
+    val columns = layout.historyColumns
+    val maxWidth = if (columns > 1) 1120.dp else layout.contentMaxWidth
     var confirmClear by rememberSaveable { mutableStateOf(false) }
 
     Column(
@@ -90,8 +98,8 @@ fun HistoryScreen(
     ) {
         Row(
             Modifier
+                .widthIn(max = maxWidth)
                 .fillMaxWidth()
-                .widthIn(max = 640.dp)
                 .padding(start = 20.dp, end = 8.dp, top = 12.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -109,8 +117,8 @@ fun HistoryScreen(
         }
         SingleChoiceSegmentedButtonRow(
             Modifier
+                .widthIn(max = if (columns > 1) 520.dp else layout.contentMaxWidth)
                 .fillMaxWidth()
-                .widthIn(max = 640.dp)
                 .padding(horizontal = 20.dp, vertical = 12.dp)
         ) {
             HistoryFilter.entries.forEachIndexed { index, filter ->
@@ -137,6 +145,26 @@ fun HistoryScreen(
             if (empty) {
                 EmptyHistory(favorites = state.filter == HistoryFilter.FAVORITES, onStartTest = onStartTest)
             } else {
+                if (columns > 1) {
+                    // Tablet/Querformat: Karten im Raster, damit die Breite genutzt wird.
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(columns),
+                        modifier = Modifier.fillMaxSize().wrapContentWidth().widthIn(max = maxWidth),
+                        contentPadding = PaddingValues(start = 20.dp, end = 20.dp, top = 4.dp, bottom = contentPadding.calculateBottomPadding() + 16.dp),
+                        verticalArrangement = Arrangement.spacedBy(12.dp),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    ) {
+                        gridItems(state.items, key = { it.id }) { item ->
+                            HistoryItem(
+                                item = item,
+                                onOpen = { onOpen(item) },
+                                onToggleFavorite = { onToggleFavorite(item) },
+                                onDelete = { onDelete(item) },
+                                modifier = Modifier.animateItem(),
+                            )
+                        }
+                    }
+                } else {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                     contentPadding = PaddingValues(start = 20.dp, end = 20.dp, top = 4.dp, bottom = contentPadding.calculateBottomPadding() + 16.dp),
@@ -149,9 +177,10 @@ fun HistoryScreen(
                             onOpen = { onOpen(item) },
                             onToggleFavorite = { onToggleFavorite(item) },
                             onDelete = { onDelete(item) },
-                            modifier = Modifier.animateItem().widthIn(max = 640.dp),
+                            modifier = Modifier.animateItem().widthIn(max = layout.contentMaxWidth),
                         )
                     }
+                }
                 }
             }
         }

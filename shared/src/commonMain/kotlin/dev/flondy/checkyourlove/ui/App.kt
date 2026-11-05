@@ -7,7 +7,18 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.NavigationRail
+import androidx.compose.material3.NavigationRailItem
+import androidx.compose.material3.NavigationRailItemDefaults
+import androidx.compose.runtime.CompositionLocalProvider
+import dev.flondy.checkyourlove.ui.theme.LocalWindowLayout
+import dev.flondy.checkyourlove.ui.theme.WindowLayout
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
@@ -140,7 +151,12 @@ fun CheckYourLoveApp(container: AppServices, onDarkThemeChanged: (Boolean) -> Un
 
     CheckYourLoveTheme(palette = palette, dark = dark, reducedMotionPreference = reduced, haptics = current.haptics) {
         AppBackground {
-            if (settings != null) AppContent(container, settingsVm, current, palette, dark)
+            BoxWithConstraints(Modifier.fillMaxSize()) {
+                val layout = WindowLayout(maxWidth, maxHeight)
+                CompositionLocalProvider(LocalWindowLayout provides layout) {
+                    if (settings != null) AppContent(container, settingsVm, current, palette, dark)
+                }
+            }
         }
     }
 }
@@ -209,28 +225,36 @@ private fun AppContent(
     val showBanner = entitlements.showAds && canRequestAds && sdkReady &&
         (route == Routes.TEST || route == Routes.HISTORY) && !isImeVisible()
 
+    val layout = LocalWindowLayout.current
+    // Tablets und Handys im Querformat: Navigation seitlich (Rail), sonst unten.
+    val useRail = layout.useNavigationRail
+    fun selectTab(target: String) {
+        if (route != target) navController.navigate(target) {
+            popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+            launchSingleTop = true
+            restoreState = true
+        }
+    }
+    val bannerSlot: @Composable () -> Unit = {
+        val banner = container.banner
+        if (showBanner && banner != null && !bannerFailed) {
+            banner(ads.bannerUnitId, { bannerFailed = true }, Modifier)
+        }
+    }
+
     Scaffold(
         containerColor = Color.Transparent,
         snackbarHost = { SnackbarHost(snackbar) },
         bottomBar = {
-            if (showBottomBar) {
+            if (showBottomBar && !useRail) {
                 Column {
-                    val banner = container.banner
-                    if (showBanner && banner != null && !bannerFailed) {
-                        banner(ads.bannerUnitId, { bannerFailed = true }, Modifier)
-                    }
+                    bannerSlot()
                     NavigationBar(containerColor = colors.surface.copy(alpha = 0.92f), tonalElevation = 0.dp) {
                         tabs.forEach { tab ->
                             val selected = route == tab.route
                             NavigationBarItem(
                                 selected = selected,
-                                onClick = {
-                                    if (!selected) navController.navigate(tab.route) {
-                                        popUpTo(navController.graph.findStartDestination().id) { saveState = true }
-                                        launchSingleTop = true
-                                        restoreState = true
-                                    }
-                                },
+                                onClick = { selectTab(tab.route) },
                                 icon = { Icon(if (selected) tab.selectedIcon else tab.icon, contentDescription = null) },
                                 label = { Text(stringResource(tab.label), maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis) },
                                 colors = NavigationBarItemDefaults.colors(
@@ -245,11 +269,42 @@ private fun AppContent(
             }
         },
     ) { inner ->
-        Box(
+        Row(
             Modifier
                 .fillMaxSize()
                 .padding(inner)
                 .consumeWindowInsets(inner)
+        ) {
+            if (showBottomBar && useRail) {
+                NavigationRail(
+                    containerColor = colors.surface.copy(alpha = 0.92f),
+                    windowInsets = WindowInsets(0),
+                    modifier = Modifier.fillMaxHeight(),
+                ) {
+                    Spacer(Modifier.weight(1f))
+                    tabs.forEach { tab ->
+                        val selected = route == tab.route
+                        NavigationRailItem(
+                            selected = selected,
+                            onClick = { selectTab(tab.route) },
+                            icon = { Icon(if (selected) tab.selectedIcon else tab.icon, contentDescription = null) },
+                            label = { Text(stringResource(tab.label), maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis) },
+                            colors = NavigationRailItemDefaults.colors(
+                                selectedIconColor = colors.onPrimaryContainer,
+                                indicatorColor = colors.primaryContainer,
+                                selectedTextColor = colors.primary,
+                            ),
+                            modifier = Modifier.padding(vertical = 6.dp),
+                        )
+                    }
+                    Spacer(Modifier.weight(1f))
+                }
+            }
+            Column(Modifier.weight(1f).fillMaxHeight()) {
+        Box(
+            Modifier
+                .weight(1f)
+                .fillMaxWidth()
                 .imePadding()
         ) {
             val duration = if (motion.reduced) 120 else 320
@@ -381,6 +436,9 @@ private fun AppContent(
                         onTry = { rewardItem = it },
                     )
                 }
+            }
+        }
+                if (showBottomBar && useRail) bannerSlot()
             }
         }
     }

@@ -52,10 +52,12 @@ class CheckYourLoveApp : Application() {
             settingsStore = createSettingsDataStore(androidSettingsPath(context)),
             gateway = { settings, scope ->
                 when {
+                    // Debug-Build: immer simulierte Käufe (Screenshots, Werbeaufnahmen, Tests) –
+                    // außer echte Käufe werden mit -Pcyl.debugRealBilling=true ausdrücklich gewünscht.
+                    BuildConfig.ALLOW_SIMULATED_BILLING -> SimulatedBillingGateway(settings, scope)
                     BuildConfig.PREMIUM_PRODUCT_ID.isNotBlank() -> PlayBillingGateway(
                         context, BuildConfig.PREMIUM_PRODUCT_ID, PurchaseVerifier(BuildConfig.PLAY_LICENSE_KEY), scope,
                     )
-                    BuildConfig.ALLOW_SIMULATED_BILLING -> SimulatedBillingGateway(settings, scope)
                     else -> DisabledBillingGateway()
                 }
             },
