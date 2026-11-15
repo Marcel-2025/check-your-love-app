@@ -39,7 +39,8 @@ enum class IdeaCategory(
     FLIRT("flirt", Res.string.ideas_cat_flirt, false),
     COMPLIMENTS("compliments", Res.string.ideas_cat_compliments, false),
     ROMANCE("romance", Res.string.ideas_cat_romance, true),
-    CHALLENGES("challenges", Res.string.ideas_cat_challenges, true);
+    CHALLENGES("challenges", Res.string.ideas_cat_challenges, true),
+    MINI("mini", Res.string.ideas_cat_mini, true);
 
     override val kind: ItemKind get() = ItemKind.CATEGORY
 

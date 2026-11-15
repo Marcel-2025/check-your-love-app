@@ -153,6 +153,16 @@ internal object ContentEn {
             "Write a shared bucket list for the next few months.",
             "Leave a voice message that just says \"thank you for being you\".",
         ),
+        IdeaCategory.MINI to listOf(
+            "Find three things in the room in the other person’s favourite colour.",
+            "Invent a new movie title together for an old photo.",
+            "Draw your week as a weather map and explain the symbols to each other.",
+            "Pick one sound each for a twenty-second story you invent together.",
+            "Make a tiny museum with three objects and give it a name.",
+            "Think of two free outings and draw one at random for later.",
+            "Tell the story of the same happy moment from both perspectives.",
+            "Describe a favourite place in three clues and let the other person guess.",
+        ),
         IdeaCategory.CHALLENGES to listOf(
             "Who can go longer without laughing at each other? Go!",
             "Imitate each other for 30 seconds.",

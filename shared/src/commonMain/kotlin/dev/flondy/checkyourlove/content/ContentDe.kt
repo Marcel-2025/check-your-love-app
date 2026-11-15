@@ -153,6 +153,16 @@ internal object ContentDe {
             "Schreibt eine gemeinsame Bucket List für die nächsten Monate.",
             "Hinterlasse eine Sprachnachricht, die einfach nur „Danke für dich“ sagt.",
         ),
+        IdeaCategory.MINI to listOf(
+            "Sucht euch im Raum drei Dinge in der Lieblingsfarbe des anderen.",
+            "Erfindet für ein altes Foto zusammen einen neuen Filmtitel.",
+            "Zeichnet eure Woche als Wetterkarte und erklärt einander die Symbole.",
+            "Wählt je ein Geräusch für eine gemeinsame 20-Sekunden-Geschichte.",
+            "Baut aus drei Gegenständen ein Mini-Museum und gebt ihm einen Namen.",
+            "Überlegt euch zwei kostenlose Ausflüge und lost einen für später aus.",
+            "Erzählt denselben schönen Moment aus euren beiden Perspektiven.",
+            "Beschreibt einen Lieblingsort mit drei Hinweisen und lasst den anderen raten.",
+        ),
         IdeaCategory.CHALLENGES to listOf(
             "Wer schafft es länger, sich nicht anzulachen? Los!",
             "Imitiert euch gegenseitig 30 Sekunden lang.",
