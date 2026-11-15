@@ -83,6 +83,7 @@ private fun IdeaCategory.icon(): ImageVector = when (this) {
     IdeaCategory.FLIRT -> Icons.Rounded.EmojiEmotions
     IdeaCategory.COMPLIMENTS -> Icons.Rounded.AutoAwesome
     IdeaCategory.ROMANCE -> Icons.Rounded.LocalFlorist
+    IdeaCategory.MINI -> Icons.Rounded.AutoAwesome
     IdeaCategory.CHALLENGES -> Icons.Rounded.SportsEsports
 }
 

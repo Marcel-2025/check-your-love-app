@@ -322,6 +322,9 @@
     <string name="ideas_locked_text">Schalte die Kategorie mit Premium frei oder teste sie 24 Stunden mit einem kurzen Video.</string>
     <string name="settings_open">Einstellungen</string>
     <string name="premium_benefit_content">Exklusive Quiz-Pakete und Ideen</string>
-    <string name="premium_benefit_content_desc">Quiz „Romantik“ und „Zukunft“ sowie romantische Gesten und Pärchen-Challenges.</string>
+    <string name="premium_benefit_content_desc">Quiz „Romantik“ und „Zukunft“ sowie romantische Gesten und Pärchen-Challenges und Mini-Abenteuer.</string>
     <string name="ideas_unlock">Freischalten</string>
+    <string name="ideas_cat_mini">Mini-Abenteuer</string>
+    <string name="news_title">Neuigkeiten</string>
+    <string name="news_body">Acht Mini-Abenteuer für zwei ergänzen den Ideenbereich. Mit Premium sind alle Karten dauerhaft verfügbar. Der kostenlose Namens- und Freundschaftstest bleibt unverändert.</string>
 </resources>

@@ -112,6 +112,7 @@ fun SettingsScreen(
     val palette = LocalPalette.current
     val uriHandler = LocalUriHandler.current
     val haptics = LocalHaptics.current
+    var showNews by rememberSaveable { mutableStateOf(false) }
     var showLicenses by rememberSaveable { mutableStateOf(false) }
 
     fun open(url: String) {
@@ -296,6 +297,7 @@ fun SettingsScreen(
                         open("mailto:${config.contactEmail}?subject=" + encodeMailSubject(subject))
                     },
                 )
+                LinkRow(title = stringResource(Res.string.news_title), onClick = { showNews = true })
                 LinkRow(title = stringResource(Res.string.settings_licenses), onClick = { showLicenses = true })
                 Text(
                     stringResource(Res.string.settings_version, config.versionName),
@@ -308,6 +310,12 @@ fun SettingsScreen(
         }
     }
 
+    if (showNews) {
+        AlertDialog(onDismissRequest = { showNews = false },
+            title = { Text(stringResource(Res.string.news_title)) },
+            text = { Text(stringResource(Res.string.news_body)) },
+            confirmButton = { TextButton(onClick = { showNews = false }) { Text(stringResource(Res.string.action_close)) } })
+    }
     if (showLicenses) {
         AlertDialog(
             onDismissRequest = { showLicenses = false },

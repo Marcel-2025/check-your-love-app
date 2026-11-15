@@ -338,6 +338,9 @@
     <string name="ideas_locked_text">Unlock the category with Premium or try it for 24 hours with a short video.</string>
     <string name="settings_open">Settings</string>
     <string name="premium_benefit_content">Exclusive quiz packs and ideas</string>
-    <string name="premium_benefit_content_desc">“Romance” and “Future” quizzes plus romantic gestures and couple challenges.</string>
+    <string name="premium_benefit_content_desc">“Romance” and “Future” quizzes plus romantic gestures and couple challenges and mini adventures.</string>
     <string name="ideas_unlock">Unlock</string>
+    <string name="ideas_cat_mini">Mini adventures</string>
+    <string name="news_title">What’s new</string>
+    <string name="news_body">Eight mini adventures for two join the ideas collection. Premium includes all cards permanently. The free love and friendship tests are unchanged.</string>
 </resources>
